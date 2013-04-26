@@ -8,25 +8,45 @@ from flask import g,session,jsonify
 
 from ezlog2.libs.db import db
 
-class Admin(db.Document):
+class Validator(object):
+
+    @classmethod
+    def is_valid(cls,email,password):
+        user = cls.objects(email=email,password=password).first()
+        return user is not None
+
+    @classmethod
+    def validate_user(cls, email, password):
+        return cls.objects(email=email,password=password).first()
+
+class Admin(db.Document, Validator):
     email       = db.StringField(required = True)
     password    = db.StringField(required = True)
 
-    @classmethod
-    def is_valid(self):
-        admin = cls.objects(email=email,password=password).first()
-        return admin is not None
+    meta = {
+        'allow_inheritance': False,
+        'index_types': False,
+        'indexes': [
+            {'fields': ['email'], 'unique': True},
+        ]
+    }
 
-    @classmethod
-    def validate_admin(cls, email, password):
-        return cls.objects(email=email,password=password).first()
+class User(db.Document):
+    email       = db.StringField(required = True)
+    nickname    = db.StringField(required = True)
+    avatar      = db.StringField()#probably change it
+    password    = db.StringField(required = True)
+    create_date = db.DateTimeField()
 
-class User():
-    self.email       = db.StringField(required = True)
-    self.nickname    = db.StringField(required = True)
-    self.avatar      = db.StringField()#probably change it
-    self.password    = db.StringField(required = True)
-    self.create_date = db.DateTimeField()
+
+    meta = {
+        'allow_inheritance': False,
+        'index_types': False,
+        'indexes': [
+            {'fields': ['email'], 'unique': True},
+            {'fields': ['nickname'], 'unique': True},
+        ]
+    }
 
     @classmethod
     def get_user_by_id(cls, id):
@@ -41,17 +61,14 @@ class User():
         pass
 
     @classmethod
-    def is_valid(cls,email,password):
-        user = cls.objects(email=email,password=password).first()
+    def is_email_exist(cls,email):
+        user = cls.objects(email=email).first()
         return user is not None
 
     @classmethod
-    def is_email_exist(cls,email):
-        pass
-
-    @classmethod
     def is_nickname_exist(cls,nickname):
-        pass
+        user = cls.objects(nickname=nickname).first()
+        return user is not None
 
     @staticmethod
     def change_password(original_pw, changed_pw):

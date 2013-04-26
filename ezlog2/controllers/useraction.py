@@ -26,7 +26,7 @@ def inject_user():
 @user_action.route('/tweet', methods=['POST'])
 def tweet():
     content = request.form['content']
-    posterid = int(session['user'].id)
+    posterid = session['user'].id
     t = Tweet(content,posterid )
     t.tweet()
     new_tweet = render_template('include/show_tweet.html', tweet = t)
@@ -56,14 +56,6 @@ def toggle_follow():
     followeduserid = request.form['followeduserid']
     Follow.toggle_follow(session['user'].id, followeduserid)
     return jsonify(result="done")
-
-
-
-
-
-
-
-
 
 
 @user_action.route('/logout')

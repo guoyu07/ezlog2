@@ -20,3 +20,4 @@ def something_before_request():
     pass
 
 import controllers
+app.register_module(controllers.useraction.user_action, url_prefix="/useraction")

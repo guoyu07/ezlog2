@@ -6,33 +6,22 @@ import hashlib
 import datetime
 
 from ezlog2.model import User, Comment
+from ezlog2.libs.db import db
 
-class Tweet:
-    def __init__(self, content, posterid):
-        self.id = None
-        self.content = content
-        self.posterid = posterid
-        self.type = 'text'
-        self.originalid = 0
-        self.retweet_comment = None
-        self.create_date = None
-        self.retweet_counter = 0
-        self.comment_counter = 0
+class Tweet(db.Document):
+    content            = db.StringField(required = True)
+    type               = db.StringField(default = "text")
+    original_id        = db.StringField(default = "")
+    retweet_comment    = db.StringField()
+    create_date        = db.DateTimeField()
 
-        self.poster = None
-        self.original_tweet =None
-        self.comments = []
-
-    def init(self,result):
-        self.id = result['id']
-        self.content = result['content']
-        self.posterid = result['posterid']
-        self.type = result['type']
-        self.originalid = result['originalid']
-        self.retweet_comment = result['retweet_comment']
-        self.create_date = result['create_date']
-        self.retweet_counter = result['retweet_counter']
-        self.comment_counter = result['comment_counter']
+    poster             = db.ReferenceField(User, dbref=True)
+    #self.original_tweet =None
+    
+    meta = {
+        'allow_inheritance': False,
+        'index_types': False,
+    }
 
     def tweet(self):
         c = g.db.cursor()
@@ -57,67 +46,31 @@ class Tweet:
         self.id = c.lastrowid
         self.poster = User.get_user_by_id(self.posterid)
         g.db.commit()
-        
+
     def is_retweet(self):
         return self.originalid !=0
 
 
 
-    @staticmethod
-    def get_tweets_foruser(userid, limit = 20, offset = 0):
-        c = g.db.cursor()
-        c.execute('''
-           SELECT * from tweet WHERE posterid IN
-           (SELECT followeduserid from follow
-           WHERE followerid=:id) or posterid=:id
-           ORDER BY create_date DESC
-           LIMIT :limit OFFSET :offset
-           ''', {'id':userid, 'limit':limit, 'offset':offset * limit})
-        results = c.fetchall()
-        tweet_list = []
-        for result in results:
-            t = Tweet(None, None)
-            t.init(result)
-            t.poster = User.get_user_by_id(t.posterid)
-            t.comments = Comment.get_comments_bytweetid(t.id)
-            if(t.is_retweet()):
-                t.original_tweet = Tweet.get_tweet_byid(t.originalid)
-            tweet_list.append(t)
-        return tweet_list
+    #TO-DO: it should be follower
+    @classmethod
+    def get_tweets_foruser(cls,userid, limit = 20, offset = 0):
+        start       = offset*limit
+        end         = offset*limit+limit
+        user        = User.get_user_by_id(userid)
+        return cls.objects(poster=user).order_by("-create_date")[start:end]
 
-    @staticmethod
-    def get_newest_tweets(limit = 20, offset =0):
-        c = g.db.cursor()
-        c.execute('''
-           SELECT * from tweet
-           ORDER BY create_date DESC
-           LIMIT :limit OFFSET :offset
-           ''', {'limit':limit, 'offset':offset * limit})
-        results = filter(lambda x:x['content']!=None,c.fetchall())
-        
-        tweet_list = []
-        for result in results:
-            t = Tweet(None, None)
-            t.init(result)
-            t.poster = User.get_user_by_id(t.posterid)
-            t.comments = Comment.get_comments_bytweetid(t.id)
-            tweet_list.append(t)
-        return tweet_list
+    @classmethod
+    def get_newest_tweets(cls,limit = 20, offset =0):
+        start       = offset*limit
+        end         = offset*limit+limit
+        return cls.objects().order_by("-create_date")[start:end]
 
 
     @staticmethod
     def get_tweet_byid(id):
-        c = g.db.cursor()
-        c.execute('''
-           SELECT * from tweet
-           WHERE id=:id
-           ''', {'id':id})
-        result = c.fetchone()
-        t = Tweet(None, None)
-        t.init(result)
-        t.poster = User.get_user_by_id(t.posterid)
-        t.comments = Comment.get_comments_bytweetid(t.id)
-        return t
+        tweet = cls.objects(id=id).first()
+        return tweet
 
     def comment_on(self, commenter, content):
         pass

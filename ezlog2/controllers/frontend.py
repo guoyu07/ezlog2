@@ -5,7 +5,7 @@ from flask import Module, url_for, \
 
 from ezlog2 import app
 from ezlog2.model import User, Tweet, Comment
-
+from ezlog2.util import sha224
 
 
 @app.context_processor
@@ -17,7 +17,6 @@ def inject_user():
 def main():
     if('user' not in session):
         return redirect(url_for('login'))
-
     tweets = Tweet.get_tweets_foruser(session['user'].id)
     return render_template('main.html', tweets = tweets)
 
@@ -26,18 +25,13 @@ def newest():
     tweets = Tweet.get_newest_tweets()
     return render_template('newest.html', tweets = tweets)
 
-
-
-
-
 @app.route("/login", methods = ['GET' ,'POST'])
 def login():
     if(request.method == "GET"):
         return render_template('login.html')
-    email = request.form['email']
-    password = request.form['password']
-    user = User(email,None,password)
-    if(user.is_valid()):
+    email = request.form.get('email',"")
+    password = sha224(request.get('password',""))
+    if(User.is_valid(email, password)):
         session['user'] = user
         flash(u'登入成功','info')
         return redirect(url_for('main'))
@@ -51,18 +45,31 @@ def register():
         return render_template('register.html')
 
     error = False
-    email = request.form['email']
+
+    email = request.form.get('email',None) or None
+    if email is None:
+        flash(u'请输入Email地址','error')
+        error = True
     if(User.is_email_exist(email)):
         flash(u'该Email已经注册','error')
         error = True
-    nickname = request.form['nickname']
+
+    nickname = request.form.get('nickname',None) or None
+    if nickname is None:
+        flash(u'请输入你的昵称','error')
+        error = True
     if(User.is_nickname_exist(nickname)):
         flash(u'该昵称已经注册','error')
         error = True
-    password = request.form['password']
+
+    password = request.form.get('password',None) or None
+    if password is None:
+        flash(u'请输入你的密码','error')
+        error = True
+
     if(error):
         return redirect(url_for('register'))
-    user = User(email, nickname, password)
+    user = User(email=email,nickname=nickname, password=password)
     user.save()
     flash(u'注册成功','info')
     session['user'] = user
