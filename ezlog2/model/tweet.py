@@ -5,7 +5,7 @@ import sqlite3
 import hashlib
 import datetime
 
-from ezlog.model import User, Comment
+from ezlog2.model import User, Comment
 
 class Tweet:
     def __init__(self, content, posterid):
