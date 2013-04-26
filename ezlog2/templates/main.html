@@ -1,0 +1,54 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<div id='weibo_sender'>
+    <div id='weibo_text'>
+        <textarea id="compose_message" placeholder='分享下你的新鲜事'class="span12" rows="4"></textarea>
+    </div>
+
+    <div id='sender_chooser'>
+
+    <ul class="nav nav-pills">
+      <li class="active">
+        <a href="#">文字</a>
+      </li>
+      <li><a href="#">图片</a></li>
+      <li><a href="#">链接</a></li>
+      <li  class='offset2'><span id='sender_notify' class="label"></span></li>
+      <li class='pull-right'>
+        <button id='tweet_send_button' class="btn btn-small btn-primary" onclick='tweet_send_acion()'type="button">发送</button>
+    </li>
+    </ul>
+    </div>
+
+
+
+</div><!--end of weibo sender-->
+
+
+<div id="weibo_notify">
+<br/>
+</div><!--end of weibo notify-->
+
+<div id='weibo_list'>
+
+    {%for tweet in tweets%}
+        {%if tweet.retweet_comment == None%}
+            {%include 'include/show_tweet.html'%}
+        {%else%}
+            {%include 'include/show_tweet.html'%}
+        {%endif%}
+    {%endfor%}
+</div><!--end of weibo list-->
+{%endblock%}
+
+{%block sidebar%}
+    {%include 'sidebar.html'%}
+
+{%endblock%}
+
+
+
+
+
+

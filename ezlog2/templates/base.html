@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>基于Flask微博</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- css styles -->
+    <link href="/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/lib/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/main.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    {%include 'topbar.html'%}
+    <div id='notify_bar'>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} center">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <span class=''>{{message}}</span>
+        </div>
+        
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    </div>
+    <div id='content'class='container'>
+    
+    <div class="container-fluid">
+      <div class="row-fluid">
+        {%block singlepage%}
+        <div class="span8" id="body-content">
+          <!--body content-->
+          {%block content%}
+          {%endblock%}
+        </div>
+        <div class="span4 pull-right" id='sidebar'>
+          {%block sidebar%}
+
+          {%endblock%}
+        {%endblock%}
+        </div>
+        
+      </div>
+    </div><!--endof container-fluid-->
+    
+    </div><!--endof container-->
+    
+    
+    
+    </div>
+    
+    {%include 'footer.html'%}
+  
+  </body>
+  
+  <script src="/static/lib/jquery-1.9.1.js"></script>
+  <script src="/static/lib/bootstrap/js/bootstrap.js"></script>
+  <script src="/static/lib/jquery.charcount.js"></script>
+  <script src="/static/lib/holder.js"></script>
+  <script src="/static/main.js"></script>
+</html>

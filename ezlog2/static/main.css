@@ -1,0 +1,110 @@
+html {
+background-color: transparent;
+}
+body{ 
+overflow-y: scroll;
+position: relative;
+padding-top: 40px;
+}
+::-webkit-scrollbar {
+height: 6px;
+width: 5px;
+background-color: #dbdbdb;
+-webkit-border-radius: 20px;
+border-left: 1px solid #ececec;
+}
+::-webkit-scrollbar-thumb:vertical {
+height: 50px;
+background-color: #666;
+border: 1px solid #eee;
+-webkit-border-radius: 6px;
+}
+#content{
+    margin-top:20px;
+}
+#sidebar{
+    margin:0px 0;
+}
+
+.widget{
+padding: 10px;
+background-color: #fff;
+border: 2px solid #ddd;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+
+.center{
+text-align: center;
+}
+
+.over-hidden{
+overflow: hidden;
+}
+
+/**weibo sender**/
+#weibo_sender{
+border: 2px solid #ddd;
+}
+
+#compose_message{
+border:none;
+border-bottom: 2px solid #ddd;
+}
+#sender_chooser{
+    padding: 0 20px;
+}
+#sender_notify{
+    display:none;
+}
+.counter{
+margin: 1px 0px 0px -84px;
+position: absolute;
+}
+/**weibo list**/
+#weibo_list{
+//border-left: 2px solid #ececec;
+//border-right: 2px solid #ececec;
+padding: 5px;
+
+}
+.retweet{
+}
+.retweet>.tweet .tweet{
+width: 92%;
+margin-left: 0%;
+background: wheat;
+padding: 10px;
+}
+.tweet{
+border-bottom: 2px solid #ececec;
+padding-bottom: 10px;
+margin: 10px 0;
+}
+
+.tweet_comment{
+    display:none;
+    margin:20px 0;
+    
+}
+.tweet_comment_list{
+    margin:20px 0;
+}
+
+.tweet_comment_shower{
+border-bottom: 2px solid #ececec;
+padding: 10px 0;
+}
+
+
+.display{
+    display: block;
+}
+.disapear{
+    display: none;
+}
+
+
+
+

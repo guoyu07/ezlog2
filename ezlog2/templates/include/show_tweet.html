@@ -1,0 +1,13 @@
+{%from "import/tweetit.html" import make_tweet%}
+{%set isretweet = tweet.is_retweet()%}
+{%if isretweet%}
+<div class="retweet row-fluid">
+{%set content = make_tweet(user,tweet.original_tweet,tweet.original_tweet.content)%}
+{{make_tweet(user,tweet,content,tweet.retweet_comment)}}
+{%else%}
+{{make_tweet(user,tweet,tweet.content)}}
+
+{%endif%}
+{%if isretweet%}
+</div><!--retweet-->
+{%endif%}
