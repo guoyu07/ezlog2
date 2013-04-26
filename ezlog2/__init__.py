@@ -7,6 +7,7 @@ from flask import Flask
 #import flask.ext.assets as fassets
 
 import config.conf as conf
+from util import readable_time
 
 app = Flask(__name__)
 
@@ -21,3 +22,4 @@ def something_before_request():
 
 import controllers
 app.register_module(controllers.useraction.user_action, url_prefix="/useraction")
+app.jinja_env.filters['timesince'] = readable_time

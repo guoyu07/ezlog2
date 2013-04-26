@@ -27,7 +27,7 @@ def inject_user():
 def tweet():
     content = request.form['content']
     posterid = session['user'].id
-    t = Tweet(content,posterid )
+    t = Tweet(content=content,poster=session['user'])
     t.tweet()
     new_tweet = render_template('include/show_tweet.html', tweet = t)
     return jsonify(result="done", newtweet = new_tweet)
@@ -46,7 +46,7 @@ def retweet():
 def comment():
     tweetid = request.form['tweetid']
     content = request.form['content']
-    c = Comment(content, tweetid, session['user'].id)
+    c = Comment(content=content, tweet=Tweet.get_tweet_byid(tweetid), commenter=session['user'])
     c.save()
     new_comment = render_template('include/show_comment.html', comment = c)
     return jsonify(result="done", newcomment = new_comment)

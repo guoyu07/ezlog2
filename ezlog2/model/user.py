@@ -2,7 +2,7 @@
 
 import string,random
 import hashlib
-import datetime
+from datetime import datetime as dt
 
 from flask import g,session,jsonify
 
@@ -36,7 +36,7 @@ class User(db.Document):
     nickname    = db.StringField(required = True)
     avatar      = db.StringField()#probably change it
     password    = db.StringField(required = True)
-    create_date = db.DateTimeField()
+    create_date = db.DateTimeField(default = dt.now)
 
 
     meta = {
@@ -78,12 +78,16 @@ class User(db.Document):
         #print "the fo: ", type(followeduserid)
         if(followeduserid is None):
             return False
-        c = g.db.cursor()
-        c.execute("SELECT * FROM follow WHERE followerid=:followerid AND followeduserid=:followeduserid",\
-                                {'followerid':self.id,'followeduserid':followeduserid})
-        result = c.fetchone()
+        result = Follow.objects(follower=self.id, followed_user=followeduserid).first()
         return result is not None
 
+    def get_followers(self):
+        pass
+    
+    def get_following_users(self):
+        following_users = Follow.objects(follower=self)
+        return following_users
+        
 
     def read_message(self, notify_message_id):
         pass
@@ -92,23 +96,25 @@ class User(db.Document):
         pass
 
 
-class Follow:
-    def __init__(self):
-        pass
+class Follow(db.Document):
+    follower             = db.ReferenceField(User)
+    followed_user        = db.ReferenceField(User)
 
-    @staticmethod
-    def toggle_follow(followerid, followeduserid):
-        c = g.db.cursor()
-        c.execute("SELECT * FROM follow WHERE followerid=:followerid AND followeduserid=:followeduserid",\
-                                {'followerid':followerid,'followeduserid':followeduserid})
-        result = c.fetchone()
+    meta = {
+        'allow_inheritance': False,
+        'index_types': False,
+        'indexes': [
+            {'fields': ['follower', 'followed_user'], 'unique': True},
+        ]
+    }
+
+    @classmethod
+    def toggle_follow(cls,followerid, followeduserid):
+        result = cls.objects(follower=followerid,followed_user=followeduserid).first()
         if result:
-            c.execute("DELETE FROM follow WHERE followerid=:followerid AND followeduserid=:followeduserid",\
-                                {'followerid':followerid,'followeduserid':followeduserid})
+            result.delete()
         else:
-            c.execute("INSERT INTO follow(followerid,followeduserid ) VALUES (:followerid,:followeduserid)",\
-                                {'followerid':followerid,'followeduserid':followeduserid})
-        g.db.commit()
+            cls(follower=followerid,followed_user=followeduserid).save()
 
 
 
