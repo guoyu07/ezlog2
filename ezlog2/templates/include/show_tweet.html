@@ -2,10 +2,10 @@
 {%set isretweet = tweet.is_retweet()%}
 {%if isretweet%}
 <div class="retweet row-fluid">
-{%set content = make_tweet(user,tweet.original_tweet,tweet.original_tweet.content)%}
-{{make_tweet(user,tweet,content,tweet.retweet_comment)}}
+{%set content = make_tweet(user,tweet.retweet_tweet,tweet.original_tweet.content, floor=floor)%}
+{{make_tweet(user,tweet,content,tweet.retweet_comment,floor=floor)}}
 {%else%}
-{{make_tweet(user,tweet,tweet.content)}}
+{{make_tweet(user,tweet,tweet.content,floor=floor)}}
 
 {%endif%}
 {%if isretweet%}

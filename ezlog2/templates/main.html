@@ -31,13 +31,14 @@
 </div><!--end of weibo notify-->
 
 <div id='weibo_list'>
-
+    {%set floor=1%}
     {%for tweet in tweets%}
         {%if tweet.retweet_comment == None%}
             {%include 'include/show_tweet.html'%}
         {%else%}
             {%include 'include/show_tweet.html'%}
         {%endif%}
+        {%set floor=floor+1%}
     {%endfor%}
 </div><!--end of weibo list-->
 {%endblock%}

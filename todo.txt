@@ -1,4 +1,4 @@
 
 
 1. rewrite follow
-2. comment should work
+2. retweet should work
