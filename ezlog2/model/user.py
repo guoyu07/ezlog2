@@ -83,17 +83,31 @@ class User(db.Document, Validator):
 
     def get_followers(self):
         pass
-    
+
     def get_following_users(self):
         following_users = Follow.objects(follower=self)
         return following_users
-        
+
 
     def read_message(self, notify_message_id):
         pass
 
     def get_unread_message(self):
         pass
+
+    @property
+    def following_counter(self):
+        return len(Follow.objects(follower=self))
+        
+    @property
+    def follower_counter(self):
+        return len(Follow.objects(followed_user=self))
+        
+    @property
+    def tweet_counter(self):
+        from tweet import Tweet
+        return len(Tweet.objects(poster=self))
+        
 
 
 class Follow(db.Document):
