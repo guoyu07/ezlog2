@@ -31,7 +31,7 @@ class Admin(db.Document, Validator):
         ]
     }
 
-class User(db.Document):
+class User(db.Document, Validator):
     email       = db.StringField(required = True)
     nickname    = db.StringField(required = True)
     avatar      = db.StringField()#probably change it

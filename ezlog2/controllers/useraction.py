@@ -34,11 +34,10 @@ def tweet():
 
 @user_action.route('/retweet', methods=['POST'])
 def retweet():
-    comment = request.form['comment']
-    originalid = request.form['originalid']
-    posterid = int(session['user'].id)
-    t = Tweet(comment,posterid )
-    t.retweetit(originalid)
+    comment         = request.form['comment']
+    originalid      = request.form['originalid']
+    poster          = session['user']
+    t               = Tweet.retweetit(originalid,comment,poster)
     new_tweet = render_template('include/show_retweet.html', tweet = t)
     return jsonify(result="done", newtweet = new_tweet)
 

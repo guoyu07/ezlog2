@@ -28,27 +28,21 @@ class Tweet(db.Document):
     def tweet(self):
         self.save()
 
-    def retweetit(self, originalid):
-        c = g.db.cursor()
-        self.retweet_comment = self.content
-        t = Tweet.get_tweet_byid(originalid)
-        originalid = t.originalid or originalid
-        self.create_date = datetime.datetime.now()
-        c.execute("INSERT INTO tweet(content, posterid,originalid, retweet_comment) VALUES \
-                (:content, :posterid,:originalid, :retweet_comment)",\
-            {'content': t.content, 'posterid':self.posterid,
-            'originalid':originalid, 'retweet_comment':self.retweet_comment})
-        self.id = c.lastrowid
-        self.poster = User.get_user_by_id(self.posterid)
-        g.db.commit()
+    @classmethod
+    def retweetit(cls, originalid, comment, poster):
+        t   = cls.get_tweet_byid(originalid)
+        ret = cls(content         = t.content, 
+                originalid      = originalid, 
+                retweet_comment = comment,
+                poster          = poster).save()
+        return ret
 
     def is_retweet(self):
         return self.originalid!=""
 
     @property
     def original_tweet(self):
-        return Tweet(id=self.originalid).first()
-
+        return Tweet.objects(id=self.originalid).first()
 
     #TO-DO: it should be follower
     @classmethod
@@ -80,7 +74,7 @@ class Tweet(db.Document):
         
     @property
     def retweet_counter(self):
-        return 0
+        return len(Tweet.objects(originalid=str(self.id)))
     @property
     def comment_counter(self):
         return len(Comment.objects(tweet=self.id))

@@ -30,7 +30,7 @@ def login():
     if(request.method == "GET"):
         return render_template('login.html')
     email = request.form.get('email',"")
-    password = sha224(request.get('password',""))
+    password = sha224(request.form.get('password',""))
     if(User.is_valid(email, password)):
         session['user'] = user
         flash(u'登入成功','info')

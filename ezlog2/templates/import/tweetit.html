@@ -27,7 +27,7 @@
         </span>
 
         <span class='tweet_action pull-right'>
-            <a href='javascript:void(0);' onclick="retweet({{tweet.id}})"><small class='label label-info'>转发({{tweet.retweet_counter}})</small></a>
+            <a href='javascript:void(0);' onclick="retweet('{{tweet.id}}')"><small class='label label-info'>转发({{tweet.retweet_counter}})</small></a>
             <a href='javascript:void(0);' onclick='show_tweet_comment("{{tweet.id}}")'>
                 <small class='label label-info'>评论({{tweet.comment_counter}})</small>
             </a>
