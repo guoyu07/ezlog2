@@ -1,7 +1,7 @@
 
 {% macro make_tweet(user,tweet, content, comment = "", floor = 1) -%}
 <div class='tweet row-fluid' tweetid='{{tweet.id}}' floor={{floor}}>
-    <div class='tweet_poster_atvatar span1'>
+    <div class='tweet_poster_atvatar span2'>
         <a href="#" class="">
             <img data-src="holder.js/50x50" data-placement="right" class='img-polaroid'>
             {%if user!=tweet.poster%}
@@ -13,7 +13,7 @@
             {%endif%}
         </a>
     </div>
-    <div class='tweet_content span11'>
+    <div class='tweet_content span10'>
         <p><a href='/user/{{tweet.poster.nickname}}'>{{tweet.poster.nickname}}</a></p>
         <p class='over-hidden'>{{comment}}
         </p>

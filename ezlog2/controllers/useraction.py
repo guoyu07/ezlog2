@@ -5,6 +5,7 @@ from flask import Module, url_for, \
 import re
 
 from ezlog2.model import User,Tweet, Comment, Follow
+from ezlog2.util import random_int
 user_action = Module(__name__)
 
 
@@ -38,7 +39,7 @@ def retweet():
     originalid      = request.form['originalid']
     poster          = session['user']
     t               = Tweet.retweetit(originalid,comment,poster)
-    new_tweet = render_template('include/show_retweet.html', tweet = t)
+    new_tweet = render_template('include/show_tweet.html', tweet = t, floor=random_int())
     return jsonify(result="done", newtweet = new_tweet)
 
 @user_action.route('/comment', methods=['POST'])

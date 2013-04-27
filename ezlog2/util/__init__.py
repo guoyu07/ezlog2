@@ -2,6 +2,7 @@
 
 from datetime import datetime as dt
 from time import mktime
+import random
 
 def sha224(password):
     import hashlib
@@ -25,3 +26,5 @@ def readable_time(d):
     else:
         return d.strftime("%Y年%m月%d日 %H:%M").decode('utf-8')
 
+def random_int():
+    return int(random.random()*10000//1)

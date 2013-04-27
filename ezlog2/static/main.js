@@ -5,16 +5,19 @@
     $("[data-toggle='tooltip']").tooltip({delay: { show: 0, hide: 100 }});
 });
 
-function retweet(id){
+function retweet(id, floor){
+    if(floor.toString().indexOf('.')!=-1){
+        floor -=0.5;
+    }
+    $tweet = $("div[floor="+floor+"]");
+    console.log($tweet.html());
     $.post("/useraction/retweet", {
         comment : "this is a test comment",
         originalid: id
     })
     .done(function (data) {
         console.log(data);
-        tweet_comment_input.val("");
         if(data.result == "done"){
-            tweet_comment_list.append(data.newcomment);
             Holder.run()
         }
     });
