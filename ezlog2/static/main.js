@@ -29,10 +29,10 @@ function toggle_follow(followeduserid, node){
         console.log(data);
         if(data.result == "done"){
             var content = $(node).html();
-            if(content == "关注"){
+            if(content == "关注一下"){
                 $(node).html("取消关注");
             }else{
-                $(node).html("关注");
+                $(node).html("关注一下");
             }
         }
         

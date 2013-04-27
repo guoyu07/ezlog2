@@ -4,7 +4,7 @@ from flask import Module, url_for, \
     render_template, session,jsonify
 import re
 
-from ezlog2.model import Tweet, Comment, Follow
+from ezlog2.model import User,Tweet, Comment, Follow
 user_action = Module(__name__)
 
 
@@ -53,7 +53,7 @@ def comment():
 @user_action.route('/toggle_follow', methods=['POST'])
 def toggle_follow():
     followeduserid = request.form['followeduserid']
-    Follow.toggle_follow(session['user'].id, followeduserid)
+    Follow.toggle_follow(session['user'], User.get_user_by_id(followeduserid))
     return jsonify(result="done")
 
 

@@ -2,3 +2,4 @@
 
 1. rewrite follow-----------js blur make a nice stuff
 2. retweet should work
+comment problem

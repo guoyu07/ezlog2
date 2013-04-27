@@ -82,10 +82,11 @@ class User(db.Document, Validator):
         return result is not None
 
     def get_followers(self):
-        pass
+        follower_users = [x.follower for x in Follow.objects(followed_user=self)]
+        return following_users
 
     def get_following_users(self):
-        following_users = Follow.objects(follower=self)
+        following_users = [x.followed_user for x in Follow.objects(follower=self)]
         return following_users
 
 

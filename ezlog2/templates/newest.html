@@ -7,8 +7,10 @@
 </div><!--end of weibo notify-->
 
 <div id='weibo_list'>
+    {%set floor=1%}
     {%for tweet in tweets%}
         {%include 'include/show_tweet.html'%}
+        {%set floor=floor+1%}
     {%endfor%}
 </div><!--end of weibo list-->
 {%endblock%}
