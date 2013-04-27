@@ -17,13 +17,20 @@ def inject_user():
 def main():
     if('user' not in session):
         return redirect(url_for('login'))
-    tweets = Tweet.get_tweets_foruser(session['user'])
-    return render_template('main.html', tweets = tweets)
+    page    = request.args.get("page", 1, type=int)
+    tweets  = Tweet.get_tweets_foruser(session['user'],offset=page-1,limit=15)
+    return render_template('main.html', 
+                            tweets = tweets,
+                            more_url = url_for("main",page=page+1))
 
 @app.route("/newest")
 def newest():
-    tweets = Tweet.get_newest_tweets()
-    return render_template('newest.html', tweets = tweets)
+    
+    page    = request.args.get("page", 1, type=int)
+    tweets  = Tweet.get_newest_tweets(offset=page-1,limit=15)
+    return render_template('newest.html', 
+                            tweets = tweets,
+                            more_url = url_for("newest",page=page+1))
 
 @app.route("/login", methods = ['GET' ,'POST'])
 def login():

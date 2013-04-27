@@ -51,7 +51,7 @@ class Tweet(db.Document):
         return Tweet.objects(id=self.retweetid).first()
 
     @classmethod
-    def get_tweets_foruser(cls,user, limit = 20, offset = 0):
+    def get_tweets_foruser(cls,user, limit = 15, offset = 0):
         start       = offset*limit
         end         = offset*limit+limit
         following_users = user.get_following_users()
