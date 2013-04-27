@@ -3,15 +3,8 @@
 <div class='tweet row-fluid' tweetid='{{tweet.id}}' floor={{floor}}>
     <div class='tweet_poster_atvatar span1'>
         <a href="#" class="">
-          {%if user%}
-            {%if user.is_following(tweet.poster.id)%}
-            <img data-src="holder.js/50x50" data-placement="right" data-toggle="tooltip"
-                data-original-title="<a href='javascript:void(0)'onclick='toggle_follow({{tweet.poster.id}}, this)'class='btn btn-info follow-btn'>取消关注</a>" data-html="true" class='img-polaroid'>
-            {%else%}
-            <img data-src="holder.js/50x50" data-placement="right" data-toggle="tooltip"
-                data-original-title="<a href='javascript:void(0)'onclick='toggle_follow({{tweet.poster.id}}, this)'class='btn btn-info follow-btn'>关注</a>" data-html="true" class='img-polaroid'>
-            {%endif%}
-          {%endif%}
+            <img data-src="holder.js/50x50" data-placement="right" class='img-polaroid'>
+            <button class='btn btn-link follow-btn'><small>关注他/ 她</small></button>
         </a>
     </div>
     <div class='tweet_content span11'>
