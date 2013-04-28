@@ -65,9 +65,8 @@ def setting_view():
 
 @user_action.route('/basic_setting', methods=["POST"])
 def basic_setting():
-    userid                  = request.form.get("userid", "")
     original_password       = request.form.get("original_password", "")
-    user = User.get_user_by_id(userid)
+    user = session['user']
     error = False
     if user.password != sha224(original_password):
         flash(u"用户ID与密码不匹配",'error')
@@ -111,8 +110,7 @@ def user_info_setting():
     slogan          = request.form.get("slogan", "")
     university      = request.form.get("university", "")
 
-    userid          = request.form.get("userid", "")
-    user            = User.get_user_by_id(userid)
+    user            = session['user']
 
     user.addr       = addr
     user.birthday   = birthday
@@ -124,6 +122,15 @@ def user_info_setting():
     user.save()
     flash(u"修改成功",'info')
     session['user'] = user
+    return redirect(url_for("setting_view"))
+
+@user_action.route('/page_setting', methods=["POST"])
+def page_setting():
+    user            = session['user']
+    user.theme      = request.form.get("theme", user.theme)
+
+    user.save()
+    flash(u"修改成功",'info')
     return redirect(url_for("setting_view"))
 
 @user_action.route('/logout')
