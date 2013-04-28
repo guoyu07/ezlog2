@@ -1,0 +1,57 @@
+<form class="form-horizontal" action='/useraction/basic_setting' method="POST">
+  <input type=hidden name="userid" value="{{user.id}}">
+  <fieldset>
+    <div id="legend">
+      <legend class="">基本设置</legend>
+    </div>
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="username">用户名</label>
+      <div class="controls">
+        <input type="text" id="username" name="email" value="{{user.email}}" class="input-xlarge">
+      </div>
+    </div>
+ 
+ 
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="username">昵称</label>
+      <div class="controls">
+        <input type="text" id="username" name="nickname" value="{{user.nickname}}" class="input-xlarge">
+        <p class="help-block"></p>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" for="password">原密码</label>
+      <div class="controls">
+        <input type="password" id="password" name="password" placeholder="修改需要提供原密码" class="input-xlarge">
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" for="password">新密码</label>
+      <div class="controls">
+        <input type="password" id="new_password" name="new_password" placeholder="新密码" class="input-xlarge">
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" for="password">确认新密码</label>
+      <div class="controls">
+        <input type="password" id="sure_new_password" name="sure_password" placeholder="确认新密码" class="input-xlarge">
+      </div>
+    </div>
+ 
+ 
+    <div class="control-group">
+      <!-- Button -->
+      <div class="controls">
+        <button class="btn btn-primary">保存</button>
+      </div>
+    </div>
+  </fieldset>
+</form>

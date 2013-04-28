@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+
+{%block singlepage%}
+<div class="offset2 span8">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#_account" data-toggle="tab">帐号信息</a></li>
+      <li><a href="#_personal" data-toggle="tab">个人信息</a></li>
+      <li><a href="#_page" data-toggle="tab">页面设置</a></li>
+    </ul>
+    
+    <div class="tab-content">
+      <div class="tab-pane active" id="_account">
+        {%include 'include/basic_setting.html'%}
+      </div>
+      <div class="tab-pane" id="_personal">...</div>
+      <div class="tab-pane" id="_page">...</div>
+    </div>
+    
+</div>
+{%endblock%}

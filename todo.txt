@@ -4,4 +4,15 @@ retweet should work
 
 comment problem
 comment date
-pagination-------------------weibo list, comment~~
+
+
+DONE                DEC
+
+                    ###paging for comments
+
+                    user setting model
+                    
+                    friend model: @feature, immediately
+                    retweet model: almost
+                    admin model@!!!! flask-admin
+                    user setting model: a little bit

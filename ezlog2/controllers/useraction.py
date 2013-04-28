@@ -58,8 +58,24 @@ def toggle_follow():
     return jsonify(result="done")
 
 
+@user_action.route('/setting', methods=["GET"])
+def setting_view():
+    return render_template("setting.html")
+
+
+@user_action.route('/basic_setting', methods=["POST"])
+def basic_setting():
+    pass
+
+@user_action.route('/user_info_setting', methods=["POST"])
+def user_info_setting():
+    pass
+
 @user_action.route('/logout')
 def logout():
     session.pop('user')
     flash(u"登出成功!","info")
     return redirect('/')
+
+
+

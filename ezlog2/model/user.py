@@ -37,6 +37,15 @@ class User(db.Document, Validator):
     avatar      = db.StringField()#probably change it
     password    = db.StringField(required = True)
     create_date = db.DateTimeField(default = dt.now)
+    
+    #here is extra info which is not required, user can setting it later
+    addr        = db.StringField()
+    birthday    = db.DateTimeField()
+    gender      = db.StringField()
+    blog        = db.StringField()
+    slogan      = db.StringField()
+    university  = db.StringField()
+    
 
 
     meta = {
