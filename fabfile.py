@@ -14,3 +14,7 @@ def update_req():
         _warn("You are not in an Virtualenv, please activate it first")
         return
     local("pip freeze > %s/pip_requirements.txt" % CURRENT_PATH)
+
+def test():
+    """Run nose test"""
+    local("nosetests --nocapture")
