@@ -16,7 +16,7 @@ def inject_user():
 @app.route("/")
 def main():
     if('user' not in session):
-        return redirect(url_for('login'))
+        return redirect(url_for('newest'))
     page    = request.args.get("page", 1, type=int)
     tweets  = Tweet.get_tweets_foruser(session['user'],offset=page-1,limit=15)
     return render_template('main.html', 

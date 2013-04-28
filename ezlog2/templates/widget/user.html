@@ -1,3 +1,4 @@
+{%if user%}
 <div class='widget' id="user_widget">
     <div class="row">
         <div class="offset1 span4">
@@ -23,10 +24,16 @@
                 <a href=''>
                     <p>微博</p>
                     <span class="badge badge-info">{{user.tweet_counter}}</span>
-
                 </a>
                 </span>
         </div>
     </div>
-
 </div>
+{%else%}
+<div class='widget' id="user_widget">
+    <div class="row">
+        <p class="offset2">为了更好的体验, 请<a href="/login">登入</a>或<a href="/register">注册</a></p>
+        
+    </div>
+</div>
+{%endif%}
