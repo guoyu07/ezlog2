@@ -37,15 +37,19 @@ class User(db.Document, Validator):
     avatar      = db.StringField()#probably change it
     password    = db.StringField(required = True)
     create_date = db.DateTimeField(default = dt.now)
-    
+
     #here is extra info which is not required, user can setting it later
     addr        = db.StringField()
-    birthday    = db.DateTimeField()
+    birthday    = db.StringField()
     gender      = db.StringField()
     blog        = db.StringField()
     slogan      = db.StringField()
     university  = db.StringField()
-    
+
+    #page setting
+    #layout      = db.StringField(default="right")
+    theme       = db.StringField(default="default")
+
 
 
     meta = {
@@ -108,16 +112,16 @@ class User(db.Document, Validator):
     @property
     def following_counter(self):
         return len(Follow.objects(follower=self))
-        
+
     @property
     def follower_counter(self):
         return len(Follow.objects(followed_user=self))
-        
+
     @property
     def tweet_counter(self):
         from tweet import Tweet
         return len(Tweet.objects(poster=self))
-        
+
 
 
 class Follow(db.Document):

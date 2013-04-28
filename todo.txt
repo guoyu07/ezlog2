@@ -2,9 +2,11 @@
 
 retweet should work
 
-comment problem
+comment problem         
 comment date
 
+
+select problem in page setting
 
 DONE                DEC
 
