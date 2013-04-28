@@ -104,13 +104,45 @@ def basic_setting():
 
 @user_action.route('/user_info_setting', methods=["POST"])
 def user_info_setting():
-    pass
+    addr            = request.form.get("addr", "")
+    birthday        = request.form.get("birthday", "")
+    gender          = request.form.get("gender", "")
+    blog            = request.form.get("blog", "")
+    slogan          = request.form.get("slogan", "")
+    university      = request.form.get("university", "")
+
+    userid          = request.form.get("userid", "")
+    user            = User.get_user_by_id(userid)
+
+    user.addr       = addr
+    user.birthday   = birthday
+    user.gender     = gender
+    user.blog       = blog
+    user.slogan     = slogan
+    user.university = university
+
+    user.save()
+    flash(u"修改成功",'info')
+    session['user'] = user
+    return redirect(url_for("setting_view"))
 
 @user_action.route('/logout')
 def logout():
     session.pop('user')
     flash(u"登出成功!","info")
     return redirect('/')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
