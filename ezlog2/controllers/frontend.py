@@ -76,7 +76,7 @@ def register():
 
     if(error):
         return redirect(url_for('register'))
-    user = User(email=email,nickname=nickname, password=password)
+    user = User(email=email,nickname=nickname, password=sha224(password))
     user.save()
     flash(u'注册成功','info')
     session['user'] = user

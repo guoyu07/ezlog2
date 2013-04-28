@@ -5,7 +5,7 @@ from flask import Module, url_for, \
 import re
 
 from ezlog2.model import User,Tweet, Comment, Follow
-from ezlog2.util import random_int
+from ezlog2.util import random_int,sha224
 user_action = Module(__name__)
 
 
@@ -65,7 +65,42 @@ def setting_view():
 
 @user_action.route('/basic_setting', methods=["POST"])
 def basic_setting():
-    pass
+    userid                  = request.form.get("userid", "")
+    original_password       = request.form.get("original_password", "")
+    user = User.get_user_by_id(userid)
+    error = False
+    if user.password != sha224(original_password):
+        flash(u"用户ID与密码不匹配",'error')
+        return redirect(url_for("setting_view"))
+
+    email = request.form.get("email", None) or None
+    if email is None:
+        flash(u'请输入Email地址','error')
+        error = True
+    if(user.email!=email and User.is_email_exist(email)):
+        flash(u'该Email已经注册','error')
+        error = True
+
+    nickname = request.form.get('nickname',None) or None
+    if nickname is None:
+        flash(u'请输入你的昵称','error')
+        error = True
+    if(user.nickname!=nickname and User.is_nickname_exist(nickname)):
+        flash(u'该昵称已经注册','error')
+        error = True
+
+    if error:
+        return redirect(url_for("setting_view"))
+
+    new_pwd         = request.form.get("new_password")
+    user.email      = email
+    user.nickname   = nickname
+    if new_pwd:
+        user.password   = sha224(new_pwd)
+    user.save()
+    flash(u"修改成功",'info')
+    session['user'] = user
+    return redirect(url_for("setting_view"))
 
 @user_action.route('/user_info_setting', methods=["POST"])
 def user_info_setting():
