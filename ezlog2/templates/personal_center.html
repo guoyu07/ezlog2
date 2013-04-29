@@ -1,13 +1,65 @@
 {%extends 'base.html'%}
 
 {%block singlepage%}
-<div class="offset2 span8">
+<div class="offset1 span10">
     <div id="personal_info">
+      <div id="legend">
+        <legend class="">个人中心</legend>
+      </div>
+      <div class="row-fluid">
+      <div class="span2">
+            <img data-src="holder.js/80x80" class='img-polaroid'>
+      </div>
+
+      <div class="span10">
+        <table class="table">
+            <tbody>
+              <tr>
+                <td class="span2"><label class="pull-right">昵称:</label></td>
+                <td style="border-right: 1px solid #ececec;">{{theuser.nickname}}</td>
+                <td class="span2"><label class="pull-right">创建时间:</label></td>
+                <td>{{theuser.create_date|timesince}}</td>
+              </tr>
+
+              <tr>
+                <td><label class="pull-right">性别:</label></td>
+                <td style="border-right: 1px solid #ececec;">{{theuser.gender}}</td>
+                <td><label class="pull-right">博客地址:</label></td>
+                <td><a href="{{theuser.blog}}">{{theuser.blog}}</a></td>
+              </tr>
+              <tr>
+                <td><label class="pull-right">大学:</label></td>
+                <td style="border-right: 1px solid #ececec;">{{theuser.university}}</td>
+                <td><label class="pull-right">生日:</label></td>
+                <td>{{theuser.birthday}}</td>
+              </tr>
+              <tr>
+                <td><label class="pull-right">地址:</label></td>
+                <td colspan="3" >{{theuser.addr}}</td>
+              </tr>
+              <tr>
+                <td><label class="pull-right">个性签名:</label></td>
+                <td colspan="3">{{theuser.slogan}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      </div>
+    </div><!--end of personal_info -->
     
     
-    </div>
-    
-    
+    <div id='weibo_list'>
+    {%set floor=1%}
+    {%for tweet in tweets%}
+        {%include 'include/show_tweet.html'%}
+        {%set floor=floor+1%}
+    {%endfor%}
+    {%if tweets|length >=15%}
+    <a class="btn btn-block" href="{{more_url}}">更多</a>
+    {%endif%}
+    </div><!--end of weibo list-->
+
+
 
 </div>
 {%endblock%}

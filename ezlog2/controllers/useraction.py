@@ -143,7 +143,13 @@ def personal_center(userid=None):
     else:
         theuser        = User.get_user_by_id(userid)
 
-    return render_template("personal_center.html",theuser=theuser)
+    page    = request.args.get("page", 1, type=int)
+    tweets  = Tweet.get_users_tweets(session['user'],offset=page-1,limit=15)
+
+    return render_template("personal_center.html",
+                            theuser=theuser,
+                            tweets=tweets,
+                             more_url = url_for("personal_center",page=page+1))
 
 
 @user_action.route('/logout')

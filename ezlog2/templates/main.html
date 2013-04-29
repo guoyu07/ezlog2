@@ -33,11 +33,7 @@
 <div id='weibo_list'>
     {%set floor=1%}
     {%for tweet in tweets%}
-        {%if tweet.retweet_comment == None%}
-            {%include 'include/show_tweet.html'%}
-        {%else%}
-            {%include 'include/show_tweet.html'%}
-        {%endif%}
+        {%include 'include/show_tweet.html'%}
         {%set floor=floor+1%}
     {%endfor%}
     {%if tweets|length >=15%}
