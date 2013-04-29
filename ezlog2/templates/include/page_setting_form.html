@@ -10,7 +10,7 @@
       <div class="controls">
         <select name="theme">
         {%for value,name in _themes%}
-          <option value="{{value}}">{{name}}</option>
+          <option value="{{value}}" {%if value==user.theme%}selected{%endif%}>{{name}}</option>
         {%endfor%}
         </select>
       </div>
