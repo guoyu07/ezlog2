@@ -133,6 +133,19 @@ def page_setting():
     flash(u"修改成功",'info')
     return redirect(url_for("setting_view"))
 
+
+@user_action.route("/personal_center",methods=["GET"])
+@user_action.route("/personal_center/<string:userid>",methods=["GET"])
+def personal_center(userid=None):
+    theuser = None
+    if userid is None:
+        theuser = session['user']
+    else:
+        theuser        = User.get_user_by_id(userid)
+
+    return render_template("personal_center.html",theuser=theuser)
+
+
 @user_action.route('/logout')
 def logout():
     session.pop('user')
