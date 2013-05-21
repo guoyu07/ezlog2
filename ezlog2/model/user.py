@@ -69,9 +69,9 @@ class User(db.Document, Validator):
     def change_avatar_by_id(id,avatar):
         pass
 
-    @staticmethod
-    def get_user_startswith(word):
-        pass
+    @classmethod
+    def get_users_startwith(cls,word, limit=5):
+        return cls.objects(nickname__istartswith=word)[:limit]
 
     @classmethod
     def is_email_exist(cls,email):

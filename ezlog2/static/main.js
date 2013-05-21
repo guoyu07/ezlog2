@@ -3,17 +3,17 @@
     $("#compose_message").charCount();
 
     $("[data-toggle='tooltip']").tooltip({delay: { show: 0, hide: 100 }});
-    
+
     atjs_ini_('textarea');
-    
-    
-    
+
+
+
 });
 
 
 function atjs_ini_(node){
-    var at_template = "<li data-value='${id}'><img src='${avatar}' height='20' width='20'/> ${nickname} <small>(${id})</small> </li>";
-    
+    var at_template = "<li data-value='${nickname}'><img src='${avatar}' height='20' width='20'/> ${nickname} <small>(${id})</small> </li>";
+
     $(node).atwho({
         at:"@",
         data : "/api/account/username",
@@ -30,22 +30,13 @@ function atjs_ini_(node){
                     callback(data.users);
                 });
             },
-            filter : function (query, data, search_key) {
-                var _this = this;
-                return $.map(data, function (item, i) {
-                    var name;
-                    name = $.isPlainObject(item) ? item[search_key] : item;
-                    if (name.toLowerCase().slice(0, query.length) == query) {//http://stackoverflow.com/a/646643/847357
-                        return item;
-                    }
-                });
-            },
+
 
         },
         tpl : at_template
     });
-    
-    
+
+
 
 
 }
@@ -89,7 +80,7 @@ function toggle_follow(followeduserid, node){
                 $(node).html("关注一下");
             }
         }
-        
+
     });
 
 }
@@ -101,7 +92,7 @@ function tweet_send_acion(){
         alert('已经超出字数, 不能发送');
         return ;
     }
-    
+
     if($('#compose_message').val() == ""){
         alert('不能发送空内容');
         return ;
@@ -143,12 +134,12 @@ function show_tweet_comment(tweetid){
 function send_tweet_comment(tweetid){
     var tweet_comment_input = $('[tweetid='+tweetid+']' + " .tweet_comment input");
     var tweet_comment_list = $('[tweetid='+tweetid+']' + " .tweet_comment");
-    
+
     if(tweet_comment_input.val() == ""){
         alert('不能发送空内容');
         return ;
     }
-    
+
     $.post("/useraction/comment", {
         content : tweet_comment_input.val(),
         tweetid: tweetid
@@ -161,7 +152,7 @@ function send_tweet_comment(tweetid){
             Holder.run()
         }
     });
-    
+
 }
 
 
@@ -181,7 +172,7 @@ function is_valid_email_address(emailAddress) {
     return pattern.test(emailAddress);
 };
 
-(function($){ 
+(function($){
     $.mlp = {x:0,y:0}; // Mouse Last Position
     function documentHandler(){
         var $current = this === document ? $(this) : $(this).contents();
@@ -189,18 +180,18 @@ function is_valid_email_address(emailAddress) {
         $current.find("iframe").load(documentHandler);
     }
     $(documentHandler);
-    $.fn.ismouseover = function(overThis) {  
+    $.fn.ismouseover = function(overThis) {
         var result = false;
-        this.eq(0).each(function() {  
+        this.eq(0).each(function() {
                 var $current = $(this).is("iframe") ? $(this).contents().find("body") : $(this);
-                var offset = $current.offset();             
+                var offset = $current.offset();
                 result =    offset.left<=$.mlp.x && offset.left + $current.outerWidth() > $.mlp.x &&
                             offset.top<=$.mlp.y && offset.top + $current.outerHeight() > $.mlp.y;
-        });  
+        });
         return result;
-    };  
+    };
 })(jQuery);
 
 function refresh(){
-    
+
 }
