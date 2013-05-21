@@ -3,7 +3,58 @@
     $("#compose_message").charCount();
 
     $("[data-toggle='tooltip']").tooltip({delay: { show: 0, hide: 100 }});
+    
+    atjs_ini_('textarea');
+    
+    
+    
 });
+
+
+function atjs_ini_(node){
+    var at_template = "<li data-value='${id}'><img src='${avatar}' height='20' width='20'/> ${nickname} <small>(${id})</small> </li>";
+    
+    $(node).atwho({
+        at:"@",
+        data : "/api/account/username",
+        search_key : "nickname",
+        callbacks : {
+            data_refactor : function (data) {
+                return data.users;
+            },
+            remote_filter: function(query, callback){
+                $.post("/api/account/username", {
+                    startwith : query,
+                })
+                .done(function (data) {
+                    callback(data.users);
+                });
+            },
+            filter : function (query, data, search_key) {
+                var _this = this;
+                return $.map(data, function (item, i) {
+                    var name;
+                    name = $.isPlainObject(item) ? item[search_key] : item;
+                    if (name.toLowerCase().slice(0, query.length) == query) {//http://stackoverflow.com/a/646643/847357
+                        return item;
+                    }
+                });
+            },
+
+        },
+        tpl : at_template
+    });
+    
+    
+
+
+}
+
+
+
+
+
+
 
 function retweet(id, floor){
     if(floor.toString().indexOf('.')!=-1){
