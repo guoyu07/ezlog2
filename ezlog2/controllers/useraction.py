@@ -21,7 +21,7 @@ def require_login():
 
 @user_action.context_processor
 def inject_user():
-    user = session['user']
+    user = session.get('user',None)
     return dict(user = user)
 
 @user_action.route('/tweet', methods=['POST'])

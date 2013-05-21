@@ -16,30 +16,30 @@
             <tbody>
               <tr>
                 <td class="span2"><label class="pull-right">昵称:</label></td>
-                <td style="border-right: 1px solid #ececec;">{{theuser.nickname or ""}}</td>
+                <td style="border-right: 1px solid #ececec;">{{theuser.nickname or "尚未填写"}}</td>
                 <td class="span2"><label class="pull-right">创建时间:</label></td>
                 <td>{{theuser.create_date|timesince}}</td>
               </tr>
 
               <tr>
                 <td><label class="pull-right">性别:</label></td>
-                <td style="border-right: 1px solid #ececec;">{{theuser.gender or ""}}</td>
+                <td style="border-right: 1px solid #ececec;">{{theuser.gender or "尚未填写"}}</td>
                 <td><label class="pull-right">博客地址:</label></td>
-                <td><a href="{{theuser.blog}}">{{theuser.blog}}</a></td>
+                <td><a href="{{theuser.blog or '#'}}">{{theuser.blog  or "尚未填写"}}</a></td>
               </tr>
               <tr>
                 <td><label class="pull-right">大学:</label></td>
-                <td style="border-right: 1px solid #ececec;">{{theuser.university or ""}}</td>
+                <td style="border-right: 1px solid #ececec;">{{theuser.university or "尚未填写"}}</td>
                 <td><label class="pull-right">生日:</label></td>
-                <td>{{theuser.birthday or ""}}</td>
+                <td>{{theuser.birthday or "尚未填写"}}</td>
               </tr>
               <tr>
                 <td><label class="pull-right">地址:</label></td>
-                <td colspan="3" >{{theuser.addr or ""}}</td>
+                <td colspan="3" >{{theuser.addr or "尚未填写"}}</td>
               </tr>
               <tr>
                 <td><label class="pull-right">个性签名:</label></td>
-                <td colspan="3">{{theuser.slogan or ""}}</td>
+                <td colspan="3">{{theuser.slogan or "尚未填写"}}</td>
               </tr>
             </tbody>
           </table>
