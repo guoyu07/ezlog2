@@ -31,14 +31,9 @@ function atjs_ini_(node){
                 });
             },
 
-
         },
         tpl : at_template
     });
-
-
-
-
 }
 
 
