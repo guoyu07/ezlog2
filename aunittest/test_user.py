@@ -9,19 +9,19 @@ from ezlog2.util import sha224
 class TestUser(unittest.TestCase):
     def setUp(self):
         self.user   = User(email="fake",nickname="12",password=sha224("fakeone")).save()
-        
+
     def test_auth(self):
         ok_(User.is_valid("fake",sha224("fakeone")))
         user = User.validate_user("fake",sha224("fakeone"))
         eq_(user.nickname,self.user.nickname)
-        
+
     def test_get_user_by_id(self):
         user = User.get_user_by_id(self.user.id)
         eq_(user,self.user)
-        
+
     def test_email_exist(self):
         pass
-        
+
     def test_nickname_exist(self):
         pass
 
