@@ -1,4 +1,12 @@
 {% extends 'admin/master.html' %}
+
+{% block brand %}
+    <span class="brand">{{ admin_view.admin.name }}</span>
+    {%if "admin" in session%}
+    <ul class="nav pull-right"><li><a href="/admin/logout">Logout</a></li></ul>
+    {%endif%}
+{% endblock %}
+
 {% block body %}
   {%if "admin" not in session%}
     <div class="offset2 span8">
@@ -12,3 +20,5 @@
   
   {%endif%}
 {% endblock %}
+
+
