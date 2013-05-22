@@ -20,10 +20,20 @@ class TestUser(unittest.TestCase):
         eq_(user,self.user)
 
     def test_email_exist(self):
-        pass
+        ok_(User.is_email_exist("fake"))
+        ok_(not User.is_email_exist("fake1"))
 
     def test_nickname_exist(self):
-        pass
+        ok_(User.is_nickname_exist("12"))
+        ok_(not User.is_nickname_exist("e1"))
 
     def tearDown(self):
         User.drop_collection()
+
+
+
+
+
+
+
+
