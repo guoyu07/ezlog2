@@ -1,4 +1,14 @@
 {% extends 'admin/master.html' %}
 {% block body %}
-    Hello World from MyView!
+  {%if "admin" not in session%}
+    <div class="offset2 span8">
+    {%include 'admin/login_form.html'%}
+    </div>
+    
+  {%else%}
+    <div class="offset2 span8">
+    {%include 'admin/welcome.html'%}
+    </div>
+  
+  {%endif%}
 {% endblock %}

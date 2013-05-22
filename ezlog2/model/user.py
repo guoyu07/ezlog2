@@ -30,6 +30,15 @@ class Admin(db.Document, Validator):
             {'fields': ['email'], 'unique': True},
         ]
     }
+    
+    @classmethod
+    def delete_admin(cls,email):
+        cls.objects(email=email).first().delete()
+    
+    def to_dict(self):
+        return {"id":str(self.id),
+                "nickname":self.email
+        }
 
 class User(db.Document, Validator):
     email       = db.StringField(required = True)

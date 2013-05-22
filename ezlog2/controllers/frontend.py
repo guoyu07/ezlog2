@@ -19,16 +19,16 @@ def main():
         return redirect(url_for('newest'))
     page    = request.args.get("page", 1, type=int)
     tweets  = Tweet.get_tweets_foruser(session['user'],offset=page-1,limit=15)
-    return render_template('main.html', 
+    return render_template('main.html',
                             tweets = tweets,
                             more_url = url_for("main",page=page+1))
 
 @app.route("/newest")
 def newest():
-    
+
     page    = request.args.get("page", 1, type=int)
     tweets  = Tweet.get_newest_tweets(offset=page-1,limit=15)
-    return render_template('newest.html', 
+    return render_template('newest.html',
                             tweets = tweets,
                             more_url = url_for("newest",page=page+1))
 
@@ -83,7 +83,19 @@ def register():
     return redirect(url_for('main'))
 
 
+@app.route("/_admin", methods = ['POST'])
+def admin_login():
+    from ezlog2.model.user import Admin
+    email       = request.form.get("username",None)
+    password    = request.form.get("password",None)
+    admin       = Admin.validate_user(email,sha224(password))
+    if admin is None:
+        flash(u'Login failed','error')
+        return redirect(url_for('admin.index'))
 
+    session['admin'] = admin.to_dict()
+    flash(u'login successfully','info')
+    return redirect(url_for('admin.index'))
 
 
 

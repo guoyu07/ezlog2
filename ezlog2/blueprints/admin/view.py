@@ -1,10 +1,10 @@
 ﻿# coding:utf-8
-from flask import Blueprint, g
+from flask import Blueprint, g,session,redirect,url_for
 from flask.ext.admin import Admin, BaseView,AdminIndexView, expose
 from flask.ext.admin.contrib.mongoengine import ModelView
 
 def author_admin():
-    return True
+    return "admin" in session
 
 class AuthBase():
     def is_accessible(self):
@@ -15,18 +15,28 @@ class MyAdminView(AdminIndexView,AuthBase):
     def index(self):
         return self.render('/admin/index.html')
 
+    @expose('/logout')
+    def logout(self):
+        if author_admin():
+            session.pop("admin")
+        return redirect(url_for('main'))
+        
     def is_accessible(self):
-        return author_admin()
+        return True
 
 class MyModelView(ModelView):
-    pass
-
-class UserModelView(ModelView):
-    column_list = ('email', 'nickname','avatar', 'nickname','create_date', 'addr','birthday', 'gender','blog', 'slogan','university', 'theme',)
-    column_filters = ['nickname', 'email']
+    can_delete = False
 
     def is_accessible(self):
         return author_admin()
+
+class UserModelView(MyModelView):
+    column_list = ('email', 'nickname','avatar', 'nickname',
+                   'create_date', 'addr','birthday', 'gender',
+                   'blog', 'slogan','university', 'theme',)
+    column_filters = ['nickname', 'email']
+
+
 
 
 
