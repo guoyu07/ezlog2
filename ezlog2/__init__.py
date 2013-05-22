@@ -13,7 +13,8 @@ from util import readable_time
 app = Flask(__name__)
 
 app.config.from_object("ezlog2.config.conf")
-admin = Admin(app)
+from ezlog2.blueprints.admin import admin
+admin.init_app(app)
 #assets = fassets.Environment(app)
 #assets.versions = 'hash:32'
 

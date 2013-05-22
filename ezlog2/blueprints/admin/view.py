@@ -18,9 +18,13 @@ class MyAdminView(AdminIndexView,AuthBase):
     def is_accessible(self):
         return author_admin()
 
+class MyModelView(ModelView):
+    pass
 
-class ModelView(ModelView):
+class UserModelView(ModelView):
+    column_list = ('email', 'nickname','avatar', 'nickname','create_date', 'addr','birthday', 'gender','blog', 'slogan','university', 'theme',)
     column_filters = ['nickname', 'email']
+
     def is_accessible(self):
         return author_admin()
 
