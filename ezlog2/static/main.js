@@ -112,19 +112,19 @@ function tweet_send_acion(){
     });
 }
 
-function show_tweet_comment(tweetid){
-    var tweet = $('[tweetid='+tweetid+']');
-    var tweet_comment = $('[tweetid='+tweetid+']' + " .tweet_comment");
-    var tweet_comment_input = $('[tweetid='+tweetid+']' + " .tweet_comment input");
-    if(tweet_comment.css('display') == 'none'){
-        tweet_comment.show();
-    }else{
-        tweet_comment.hide();
+var show_tweet_comment = (function(tweetid){
+    var displayed = false;
+    return function(tweetid){
+      var tweet = $('[tweetid='+tweetid+']');
+      var tweet_comment = $(".tweet_comment",tweet);
+      if(!displayed){
+          tweet_comment.show();
+      }else{
+          tweet_comment.hide();
+      }
+      displayed =!displayed;
     }
-
-
-    //console.log(tweet);
-}
+})();
 
 function send_tweet_comment(tweetid){
     var tweet_comment_input = $('[tweetid='+tweetid+']' + " .tweet_comment input");
