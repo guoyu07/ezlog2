@@ -153,6 +153,8 @@ def personal_center(userid=None):
 
 @user_action.route("/message_center",methods=["GET"])
 def message_center():
+    
+    
     return render_template("message_center.html")
 
 @user_action.route('/logout')

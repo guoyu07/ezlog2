@@ -12,15 +12,15 @@
           <legend class="">通知 ({{user.notify_counter}})</legend>
         </div>
         <ul class="">
-          <li>挺好isi</li>
-          <li>挺好isi</li>
-        
+          {%for notify in user.get_notify_messages()%}
+            <li><button class="close" onclick="read_notify('{{notify.id}}')">&times;</button> {{notify.content}}</li>
+          {%endfor%}
         </ul>
         
         
         
         <div id="legend">
-          <legend class="">私信({{user.notify_counter}})</legend>
+          <legend class="">私信({{user.private_counter}})</legend>
         </div>
       </div>
     </div>

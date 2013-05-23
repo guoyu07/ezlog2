@@ -128,15 +128,18 @@ class User(db.Document, Validator):
     def get_unread_message(self):
         pass
 
-    @property
     def get_notify_messages(self):
         from message import NotifyMessage
-        
+        return NotifyMessage.get_notify_message_for_user(self)
     @property
     def notify_counter(self):
         from message import NotifyMessage
         return NotifyMessage.get_user_notify_counter(self)
         
+    @property
+    def private_counter(self):
+        #TO-DO
+        return 0
     @property
     def following_counter(self):
         return len(Follow.objects(follower=self))
