@@ -31,7 +31,7 @@
                 <small class='label label-info'>评论({{tweet.comment_counter}})</small>
             </a>
           {%else%}
-            <a href='javascript:void(0);' onclick="retweet('{{tweet.id}}',{{floor or 0}})"><small class='label label-info'>转发({{tweet.retweet_counter}})</small></a>
+            <a href='#_retweet_input' data-toggle="modal"><small class='label label-info'>转发({{tweet.retweet_counter}})</small></a>
             <a href='javascript:void(0);' onclick='show_tweet_comment("{{tweet.id}}",{{floor or 0}})'>
                 <small class='label label-info'>评论({{tweet.comment_counter}})</small>
             </a>
