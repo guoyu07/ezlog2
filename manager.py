@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from flask.ext.script import Manager
 
 from ezlog2 import app
+import ezlog2.config.conf as config 
 from ezlog2.model.user import Admin
 from ezlog2.util import sha224
 
@@ -30,6 +31,13 @@ def delete_admin(username):
 def show_admin():
     '''show admins'''
     print [x.email for x in Admin.objects.only('email')]
+
+@manager.command
+def clean_db():
+    from pymongo import MongoClient
+    conn = MongoClient(config.MONGODB_HOST, config.MONGODB_PORT)
+    conn.drop_database(config.MONGODB_DB)
+    conn.close()
 
 
 if __name__ == "__main__":

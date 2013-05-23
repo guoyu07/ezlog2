@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.config.from_object("ezlog2.config.conf")
 from ezlog2.blueprints.admin import admin
 admin.init_app(app)
+admin.base_template='admin/my_master.html'
 #assets = fassets.Environment(app)
 #assets.versions = 'hash:32'
 

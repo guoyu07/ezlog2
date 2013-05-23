@@ -8,7 +8,7 @@ def author_admin():
 
 class AuthBase():
     def is_accessible(self):
-        return False
+        return author_admin()
 
 class MyAdminView(AdminIndexView,AuthBase):
     @expose('/')
@@ -21,21 +21,34 @@ class MyAdminView(AdminIndexView,AuthBase):
             session.pop("admin")
             flash(u"管理员登出成功")
         return redirect(url_for('main'))
-        
+
     def is_accessible(self):
         return True
 
-class MyModelView(ModelView):
+class MyModelView(ModelView,AuthBase):
     can_delete = False
-
-    def is_accessible(self):
-        return author_admin()
 
 class UserModelView(MyModelView):
     column_list = ('email', 'nickname','avatar', 'nickname',
                    'create_date', 'addr','birthday', 'gender',
                    'blog', 'slogan','university', 'theme',)
     column_filters = ['nickname', 'email']
+
+class TweetModelView(MyModelView):
+    column_list = ('content', 'type','retweet_comment',
+                    'create_date','poster')
+    column_filters = ['content', 'retweet_comment']
+
+
+
+
+
+
+
+
+
+
+
 
 
 
