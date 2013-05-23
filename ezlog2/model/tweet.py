@@ -7,6 +7,7 @@ from datetime import datetime as dt
 
 from ezlog2.model import User, Comment
 from ezlog2.libs.db import db
+from ezlog2.util import find_all_at_users
 
 class Tweet(db.Document):
     content            = db.StringField(required = True)
@@ -27,6 +28,11 @@ class Tweet(db.Document):
         self._comments = None
 
     def tweet(self):
+        from message import NotifyMessage
+        nicknames   = find_all_at_users(self.content)
+        for nickname in nicknames:
+            receiver = User.get_user_by_nickname(nickname)
+            NotifyMessage.add("test",self.poster,receiver)
         self.save()
 
     @classmethod

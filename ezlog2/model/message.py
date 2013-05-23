@@ -10,13 +10,29 @@ from ezlog2.libs.db import db
 
 
 class NotifyMessage(db.Document):
+    content            = db.StringField(required = True)
     sender             = db.ReferenceField(User)
     receiver           = db.ReferenceField(User)
+    create_date        = db.DateTimeField(default=dt.now)
+    has_read           = db.BooleanField(default=False)
 
     meta = {
         'allow_inheritance': False,
         'index_types': False,
     }
+
+    @classmethod
+    def add(cls,content,sender,receiver):
+        nm      = cls(content=content,sender=sender,receiver=receiver).save()
+        return nm
+
+    @classmethod
+    def get_user_notify_counter(cls,user):
+        return len(cls.objects(receiver=user,has_read=False))
+
+    @classmethod
+    def get_notify_message_for_user(cls,user):
+        return cls.objects(receiver=user,has_read=False)
 
 
 #only two person followed each other, they can send private message
@@ -24,7 +40,8 @@ class PrivateMessage(db.Document):
     content            = db.StringField(required = True)
     sender             = db.ReferenceField(User)
     receiver           = db.ReferenceField(User)
-    create_date        = db.DateTimeField(default = dt.now)
+    create_date        = db.DateTimeField(default=dt.now)
+    has_read           = db.BooleanField(default=False)
 
     meta = {
         'allow_inheritance': False,
@@ -32,12 +49,14 @@ class PrivateMessage(db.Document):
     }
 
     @classmethod
-    def add(cls,content,sender,receiver)
+    def add(cls,content,sender,receiver):
         pass
 
     @classmethod
     def get_private_message_for_user(cls,user):
         pass
+
+
 
 
 

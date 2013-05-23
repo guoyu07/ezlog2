@@ -18,8 +18,6 @@ def require_login():
         flash(u"你需要先登入!","error")
         return redirect('/login')
 
-
-
 @user_action.context_processor
 def inject_user():
     user = session.get('user',None)
@@ -153,6 +151,9 @@ def personal_center(userid=None):
                             more_url = url_for("personal_center",page=page+1,userid=userid)
                             )
 
+@user_action.route("/message_center",methods=["GET"])
+def message_center():
+    return render_template("message_center.html")
 
 @user_action.route('/logout')
 def logout():

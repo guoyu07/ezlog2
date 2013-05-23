@@ -3,6 +3,13 @@
 from datetime import datetime as dt
 from time import mktime
 import random
+import re
+
+_at_user_re = re.compile(ur"@(\w+) ")
+
+def find_all_at_users(content):
+    tstr    = content + " "
+    return set(_at_user_re.findall(tstr))
 
 def sha224(password):
     import hashlib

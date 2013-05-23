@@ -77,6 +77,10 @@ class User(db.Document, Validator):
     @classmethod
     def change_avatar_by_id(id,avatar):
         pass
+        
+    @classmethod
+    def get_user_by_nickname(cls,nickname):
+        return cls.objects(nickname=nickname).first()
 
     @classmethod
     def get_users_startwith(cls,word, limit=5):
@@ -110,14 +114,29 @@ class User(db.Document, Validator):
     def get_following_users(self):
         following_users = [x.followed_user for x in Follow.objects(follower=self)]
         return following_users
+        
+    #check whether this user can send private message to others
+    def can_send_pm_to_user(self, userid):
+        pass
 
 
+    #private message
     def read_message(self, notify_message_id):
         pass
 
+    #private message
     def get_unread_message(self):
         pass
 
+    @property
+    def get_notify_messages(self):
+        from message import NotifyMessage
+        
+    @property
+    def notify_counter(self):
+        from message import NotifyMessage
+        return NotifyMessage.get_user_notify_counter(self)
+        
     @property
     def following_counter(self):
         return len(Follow.objects(follower=self))
