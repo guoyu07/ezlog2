@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 *-*
 import string,random
-from flask import g,session,jsonify
+from flask import g,session,jsonify,render_template
 import sqlite3
 import hashlib
 from datetime import datetime as dt
@@ -30,10 +30,13 @@ class Tweet(db.Document):
     def tweet(self):
         from message import NotifyMessage
         nicknames   = find_all_at_users(self.content)
+        self.save()
         for nickname in nicknames:
             receiver = User.get_user_by_nickname(nickname)
-            NotifyMessage.add("test",self.poster,receiver)
-        self.save()
+            NotifyMessage.add(self.notify_render(),self.poster,receiver)
+            
+    def notify_render(self):
+        return render_template("include/tweet_notify.html",sender=self.poster,tweet=self)
 
     @classmethod
     def retweetit(cls, originalid, comment, poster):

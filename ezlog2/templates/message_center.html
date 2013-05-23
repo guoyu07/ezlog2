@@ -13,7 +13,7 @@
         </div>
         <ul class="">
           {%for notify in user.get_notify_messages()%}
-            <li><button class="close" onclick="read_notify('{{notify.id}}')">&times;</button> {{notify.content}}</li>
+            <li><button class="close" onclick="read_notify('{{notify.id}}')">&times;</button> {{notify.content|safe}}</li>
           {%endfor%}
         </ul>
         
