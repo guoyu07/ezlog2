@@ -23,6 +23,15 @@ def main():
                             tweets = tweets,
                             more_url = url_for("main",page=page+1))
 
+
+@app.route("/tweet/<string:tweetid>",methods=['GET'])
+def show_single_tweet(tweetid):
+    tweet = Tweet.get_tweet_byid(tweetid)
+    tweet.open = True
+    return render_template("single_tweet.html",
+                            tweet=tweet,
+                            )
+
 @app.route("/newest")
 def newest():
 
