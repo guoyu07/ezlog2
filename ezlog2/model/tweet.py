@@ -34,7 +34,7 @@ class Tweet(db.Document):
         for nickname in nicknames:
             receiver = User.get_user_by_nickname(nickname)
             NotifyMessage.add(self.notify_render(),self.poster,receiver)
-            
+
     def notify_render(self):
         return render_template("include/tweet_notify.html",sender=self.poster,tweet=self)
 
@@ -68,7 +68,7 @@ class Tweet(db.Document):
         tweets = cls.objects(poster__in=[x.id for x in following_users]+[user.id])\
                   .order_by("-create_date")[start:end]
         return tweets
-        
+
     @classmethod
     def get_users_tweets(cls, user, limit=15, offset=0):
         start       = offset*limit
@@ -76,7 +76,7 @@ class Tweet(db.Document):
         tweets = cls.objects(poster=user)\
                   .order_by("-create_date")[start:end]
         return tweets
-        
+
 
     @classmethod
     def get_newest_tweets(cls,limit = 20, offset =0):

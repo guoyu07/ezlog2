@@ -37,17 +37,19 @@
             </a>
           {%endif%}
         </span>
-
+        {%if not incontent%}
         <div class='tweet_comment'{%if tweet.open%}style="display:block;"{%endif%}>
             <input class='input-block-level'type=text placeholder="评论" />
             <button class='btn btn-warning btn-mini pull-right' onclick='send_tweet_comment("{{tweet.id}}")'>评论</button>
-
+            
             <div class='tweet_comment_list'>
                 {%for comment in tweet.comments%}
                     {%include 'include/show_comment.html'%}
                 {%endfor%}
             </div>
+          
         </div>
+        {%endif%}
     </div>
 </div><!--tweet-->
 {%- endmacro %}

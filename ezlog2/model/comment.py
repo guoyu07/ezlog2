@@ -7,6 +7,7 @@ from datetime import datetime as dt
 
 from ezlog2.model import User
 from ezlog2.libs.db import db
+from ezlog2.util import find_all_at_users
 
 class Comment(db.Document):
     content        = db.StringField(required = True)
@@ -15,6 +16,19 @@ class Comment(db.Document):
 
     commenter      = db.ReferenceField(User, dbref=True)
 
+    @classmethod
+    def add(cls,content,tweet,commenter):
+        c = Comment(content=content, tweet=tweet, commenter=commenter)
+        c.save()
+        from message import NotifyMessage
+        nicknames   = find_all_at_users(self.content)
+        for nickname in nicknames:
+            receiver = User.get_user_by_nickname(nickname)
+            NotifyMessage.add(self.notify_render(),self.commenter,receiver)
+        return c
+        
+    def notify_render(self):
+        return render_template("include/comment_notify.html",sender=self.commenter,tweet=tweet)
 
 
     @classmethod

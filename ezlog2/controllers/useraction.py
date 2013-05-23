@@ -46,8 +46,7 @@ def retweet():
 def comment():
     tweetid = request.form['tweetid']
     content = request.form['content']
-    c = Comment(content=content, tweet=Tweet.get_tweet_byid(tweetid), commenter=session['user'])
-    c.save()
+    c = Comment.add(content, Tweet.get_tweet_byid(tweetid), session['user'])
     new_comment = render_template('include/show_comment.html', comment = c)
     return jsonify(result="done", newcomment = new_comment)
 
