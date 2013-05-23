@@ -5,6 +5,7 @@
     $("[data-toggle='tooltip']").tooltip({delay: { show: 0, hide: 100 }});
 
     atjs_ini_('textarea');
+    atjs_ini_('input');
 
 
 
@@ -155,7 +156,7 @@ function send_tweet_comment(tweetid){
         console.log(data);
         tweet_comment_input.val("");
         if(data.result == "done"){
-            tweet_comment_list.append(data.newcomment);
+            $(".tweet_comment_list",tweet_comment_list).prepend(data.newcomment);
             Holder.run()
         }
     });
