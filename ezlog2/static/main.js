@@ -37,7 +37,19 @@ function atjs_ini_(node){
 }
 
 
+function read_notify(notifyid){
 
+  $.post("/useraction/read_notify_message", {
+      messageid : notifyid
+  })
+  .done(function (data) {
+      if(data.rcode == 200){
+        $('[notifyid='+notifyid+']').hide();
+      
+      }
+  });
+
+}
 
 
 

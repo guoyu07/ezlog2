@@ -6,6 +6,7 @@ import re
 
 from ezlog2 import app
 from ezlog2.model import User,Tweet, Comment, Follow
+from ezlog2.model.message import NotifyMessage,PrivateMessage
 from ezlog2.util import random_int,sha224
 user_action = Module(__name__)
 
@@ -153,9 +154,19 @@ def personal_center(userid=None):
 
 @user_action.route("/message_center",methods=["GET"])
 def message_center():
-    
-    
     return render_template("message_center.html")
+
+
+@user_action.route("/read_notify_message",methods=["POST"])
+def read_notify_message():
+    messageid   = request.form.get("messageid",None)
+    nm          = NotifyMessage.get_notify_message_by_id(messageid)
+    if nm is None:
+        return jsonify(rcode=404)
+    result = nm.read(session['user'])
+    if not result:
+        return jsonify(rcode=404) 
+    return jsonify(rcode=200)
 
 @user_action.route('/logout')
 def logout():

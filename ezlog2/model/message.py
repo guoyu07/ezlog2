@@ -27,12 +27,25 @@ class NotifyMessage(db.Document):
         return nm
 
     @classmethod
+    def get_notify_message_by_id(cls,id):
+        if id is None:
+            return None
+        return cls.objects(id=id).first()
+
+    @classmethod
     def get_user_notify_counter(cls,user):
         return len(cls.objects(receiver=user,has_read=False))
 
     @classmethod
     def get_notify_message_for_user(cls,user):
         return cls.objects(receiver=user,has_read=False)
+    
+    def read(self,user):
+        if user != self.receiver:
+            return False
+        self.has_read = True
+        self.save()
+        return True
 
 
 #only two person followed each other, they can send private message
