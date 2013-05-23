@@ -4,6 +4,7 @@ from flask import Module, url_for, \
     render_template, session,jsonify
 import re
 
+from ezlog2 import app
 from ezlog2.model import User,Tweet, Comment, Follow
 from ezlog2.util import random_int,sha224
 user_action = Module(__name__)
@@ -135,7 +136,7 @@ def page_setting():
 
 
 @user_action.route("/personal_center",methods=["GET"])
-@user_action.route("/personal_center/<string:userid>",methods=["GET"])
+@app.route("/personal_center/<string:userid>",methods=["GET"])
 def personal_center(userid=None):
     theuser = None
     if userid is None:
@@ -144,12 +145,13 @@ def personal_center(userid=None):
         theuser        = User.get_user_by_id(userid)
 
     page    = request.args.get("page", 1, type=int)
-    tweets  = Tweet.get_users_tweets(session['user'],offset=page-1,limit=15)
+    tweets  = Tweet.get_users_tweets(theuser,offset=page-1,limit=15)
 
     return render_template("personal_center.html",
                             theuser=theuser,
                             tweets=tweets,
-                             more_url = url_for("personal_center",page=page+1))
+                            more_url = url_for("personal_center",page=page+1,userid=userid)
+                            )
 
 
 @user_action.route('/logout')
