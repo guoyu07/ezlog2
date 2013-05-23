@@ -52,7 +52,9 @@ function read_notify(notifyid){
 
 }
 
-
+function retweeet_trigger(tweetid){
+  console.log(tweetid);
+}
 
 
 function retweet(id, floor){
