@@ -3,8 +3,8 @@ from io import BytesIO
 import StringIO
 import md5
 
-import Image
-import ImageOps
+from PIL import Image
+from PIL import ImageOps
 
 from .util import convert_image_to_file, convert_file_to_image, sumfile
 '''

@@ -6,6 +6,12 @@ try:
 except ImportError, e:
     pass
 
+try:
+    #this import only used when oss operator used
+    from mongoengine import Document,StringField,FileField
+except ImportError, e:
+    pass
+
 from util import sumfile
 
 class PicBaseOperator():
@@ -24,13 +30,15 @@ class PicBaseOperator():
 
 class OssOperator(PicBaseOperator):
     def __init__(self):
-        self.url = None
-        self.filename = None
-        self.oss = OssAPI(END_POINT, ACCESS_ID, ACCESS_KEY)
+        self.url        = None
+        self.filename   = None
+        self.oss        = OssAPI(END_POINT, ACCESS_ID, ACCESS_KEY)
 
     def save(self, file):
         self.filename = sumfile(file)
-        self.url = self.oss.put_object_from_fp(BUCKET, self.filename, file)
+        self.url      = self.oss.put_object_from_fp(BUCKET,
+                                                    self.filename,
+                                                    file)
 
     def delete(self, filename):
         self.oss.delete_object(BUCKET, filename)
@@ -39,7 +47,33 @@ class OssOperator(PicBaseOperator):
         return self.url
 
 class MongOperator(PicBaseOperator):
-    pass
+    def __init__(self, mongo_storage):
+        self.mongo_storage = mongo_storage  #Document Type, need picture attribute
+        self.filename      = None
+        self.url           = None
+
+    def save(self, file):
+        self.mongo_storage.picture.put(file, content_type = 'image/jpeg')
+        self.mongo_storage.save()
+
+    def delete(self, filename):
+        self.mongo_storage.picture.delete()
+
+    def get_url(self):
+        return self.url
+
+class MongoStorage(Document):
+    picture         = FileField()
 
 class DiskOperator(PicBaseOperator):
     pass
+
+
+
+
+
+
+
+
+
+
