@@ -53,24 +53,41 @@ function read_notify(notifyid){
 }
 
 function retweeet_trigger(tweetid){
-  console.log(tweetid);
+  var tweet = $('[tweetid='+tweetid+']');
+
+  var retweet_input = $("#_retweet_input");
+  var sender_btn    = $("#_retweet_sender",retweet_input);
+  var $content      = $("#_retweet_content",retweet_input);
+  if(tweet.parent().hasClass("retweet")){
+    var $comment    = $(".retweet_comment",tweet);
+    var $poster     = $(".retweet_poster",tweet);
+    $content.val("//"+$poster.html().trim()+": "+$comment.html().trim());
+  }else{
+    $content.val("");
+  }
+  
+  sender_btn.off().on("click",function(e){
+    retweet(tweetid,$content.val());
+  })
 }
 
 
-function retweet(id, floor){
-    if(floor.toString().indexOf('.')!=-1){
-        floor -=0.5;
-    }
-    $tweet = $("div[floor="+floor+"]");
-    console.log($tweet.html());
+function retweet(id, comment){
     $.post("/useraction/retweet", {
-        comment : "this is a test comment",
+        comment : comment,
         originalid: id
     })
     .done(function (data) {
         console.log(data);
         if(data.result == "done"){
-            Holder.run()
+            $('#_retweet_input').modal('hide');
+            $('#weibo_list').prepend(data.newtweet);
+            var notify = $('#sender_notify');
+            notify.addClass('label-success');
+            notify.html("转发成功");
+            notify.show();
+            notify.fadeOut(3000);
+            Holder.run();
         }
     });
 
