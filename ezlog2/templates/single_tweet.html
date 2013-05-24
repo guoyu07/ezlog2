@@ -9,3 +9,11 @@
 
 </div>
 {%endblock%}
+
+{%block script%}
+  {%if is_retweet%}
+    $('#_retweet_input').modal('show');
+    retweeet_trigger('{{tweet.id}}');
+  {%endif%}
+
+{%endblock%}

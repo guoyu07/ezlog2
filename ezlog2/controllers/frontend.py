@@ -26,10 +26,12 @@ def main():
 
 @app.route("/tweet/<string:tweetid>",methods=['GET'])
 def show_single_tweet(tweetid):
-    tweet = Tweet.get_tweet_byid(tweetid)
+    tweet      = Tweet.get_tweet_byid(tweetid)
     tweet.open = True
+    is_retweet = request.args.get("retweet",None)
     return render_template("single_tweet.html",
                             tweet=tweet,
+                            is_retweet=is_retweet,
                             )
 
 @app.route("/newest")

@@ -27,6 +27,7 @@
 
         <span class='tweet_action pull-right'>
           {%if incontent%}
+            <a href='/tweet/{{tweet.id}}?retweet=True' ><small class='label label-info'>转发({{tweet.retweet_counter}})</small></a>
             <a href='/tweet/{{tweet.id}}'>
                 <small class='label label-info'>评论({{tweet.comment_counter}})</small>
             </a>

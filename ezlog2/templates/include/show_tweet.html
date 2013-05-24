@@ -3,7 +3,7 @@
 {%if isretweet%}
 <div class="retweet row-fluid">
 {%set content = make_tweet(user,tweet.retweet_tweet,tweet.original_tweet.content, floor=floor,incontent=True)%}
-{%set floor=floor+0.5%}
+{%set floor=floor or 0+0.5%}
 {{make_tweet(user,tweet,content,tweet.retweet_comment,floor=floor)}}
 {%else%}
 {{make_tweet(user,tweet,tweet.content,floor=floor)}}
