@@ -30,7 +30,7 @@ class MyModelView(ModelView,AuthBase):
 
 class UserModelView(MyModelView):
     column_list = ('email', 'nickname','avatar', 'nickname',
-                   'create_date', 'addr','birthday', 'gender',
+                   'create_date', 'birthday','addr', 'gender',
                    'blog', 'slogan','university', 'theme',)
     column_filters = ['nickname', 'email']
 

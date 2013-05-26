@@ -140,16 +140,39 @@ def personal_center(userid=None):
     if userid is None:
         theuser = session['user']
     else:
-        theuser        = User.get_user_by_id(userid)
+        theuser = User.get_user_by_id(userid)
+        return str(theuser)
 
-    page    = request.args.get("page", 1, type=int)
-    tweets  = Tweet.get_users_tweets(theuser,offset=page-1,limit=15)
+
+    page        = request.args.get("page", 1, type=int)
+    tweets      = Tweet.get_users_tweets(theuser,offset=page-1,limit=15)
 
     return render_template("personal_center.html",
                             theuser=theuser,
                             tweets=tweets,
                             more_url = url_for("personal_center",page=page+1,userid=userid)
                             )
+
+@user_action.route("/followers", methods=["GET"])
+def show_user_followers():
+    userid          = request.args.get("userid",None)
+    user            = User.get_user_by_id(userid)
+    followers       = Follow.get_followers_by_user(user)
+
+    return render_template("show_followers.html",
+                           followers=followers,
+                           user=user)
+
+@user_action.route("/followed_users", methods=["GET"])
+def show_user_followed_users():
+    userid          = request.args.get("userid",None)
+    user            = User.get_user_by_id(userid)
+    followers       = Follow.get_followers_by_user(user)
+    
+    return render_template("show_followed_users.html",
+                           followers=followers,
+                           user=user)
+
 
 @user_action.route("/message_center",methods=["GET"])
 def message_center():
@@ -164,7 +187,7 @@ def read_notify_message():
         return jsonify(rcode=404)
     result = nm.read(session['user'])
     if not result:
-        return jsonify(rcode=404) 
+        return jsonify(rcode=404)
     return jsonify(rcode=200)
 
 @user_action.route('/logout')

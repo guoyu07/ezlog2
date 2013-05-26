@@ -68,7 +68,7 @@ function retweeet_trigger(tweetid){
   
   sender_btn.off().on("click",function(e){
     retweet(tweetid,$content.val());
-  })
+  });
 }
 
 

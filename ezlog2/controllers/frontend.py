@@ -49,7 +49,8 @@ def login():
         return render_template('login.html')
     email = request.form.get('email',"")
     password = sha224(request.form.get('password',""))
-    if(User.is_valid(email, password)):
+    user     = User.validate_user(email, password)
+    if(user is not None):
         session['user'] = user
         flash(u'登入成功','info')
         return redirect(url_for('main'))

@@ -9,6 +9,17 @@
       <div class="row-fluid">
       <div class="span2">
             <img data-src="holder.js/80x80" class='img-polaroid'>
+            <br />
+            <br />
+            <a href="">关注
+              <span class="badge badge-info">{{user.following_counter}}</span>
+            </a> <br />
+            <a href="/useraction/followers?userid={{user.id}}">粉丝
+              <span class="badge badge-info">{{user.follower_counter}}</span>
+            </a> <br />
+            <a href="/personal_center/{{user.id}}">微博
+              <span class="badge badge-info">{{user.tweet_counter}}</span>
+            </a>
       </div>
 
       <div class="span10">

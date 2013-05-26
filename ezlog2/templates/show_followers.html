@@ -1,0 +1,51 @@
+{%extends 'base.html'%}
+
+{%block singlepage%}
+<div class="offset1 span10">
+    <div id="follower_center">
+      <div id="legend">
+        <legend class=""> 已经有{{user.follower_counter}}关注{%if user == session["user"]%}你{%else%}{{user.nickname}}{%endif%}
+        </legend>
+      </div>
+      {%for follower in followers%}
+      <div class="offset1 span10 people_in_list">
+          <div class='span2'>
+            <a href="#" class="">
+              <img data-src="holder.js/100x100" data-placement="right" class='img-polaroid'>
+            </a>
+          </div>
+          <div class="span10">
+            {{follower.nickname or ""}} {{follower.gender or ""}} 地址：{{follower.addr or "未填写"}}
+          </div>
+          <div class="span10">
+            <a href="">关注
+              <span class="badge badge-info">{{follower.following_counter}}</span>
+            </a>|
+            <a href="/useraction/followers?userid={{follower.id}}">粉丝
+              <span class="badge badge-info">{{follower.follower_counter}}</span>
+            </a>|
+            <a href="/personal_center/{{follower.id}}">微博
+              <span class="badge badge-info">{{follower.tweet_counter}}</span>
+            </a>
+          </div>
+          <div class="span10">
+            {{follower.slogan or ""}}
+          </div>
+          <div class="span10">
+            {%if user and user.is_following(follower.id)%}
+              <button class='btn btn-link follow-btn' onclick="toggle_follow('{{follower.id}}',this)">取消关注</button>
+            {%else%}
+              <button class='btn btn-link follow-btn' onclick="toggle_follow('{{follower.id}}',this)">关注一下</button>
+            {%endif%}
+          </div>
+          
+          
+      </div>
+      {%endfor%}
+    </div>
+
+
+
+
+</div>
+{%endblock%}

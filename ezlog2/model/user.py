@@ -30,11 +30,11 @@ class Admin(db.Document, Validator):
             {'fields': ['email'], 'unique': True},
         ]
     }
-    
+
     @classmethod
     def delete_admin(cls,email):
         cls.objects(email=email).first().delete()
-    
+
     def to_dict(self):
         return {"id":str(self.id),
                 "nickname":self.email
@@ -72,12 +72,14 @@ class User(db.Document, Validator):
 
     @classmethod
     def get_user_by_id(cls, id):
+        if id is None:
+            return None
         return cls.objects(id=id).first()
 
     @classmethod
     def change_avatar_by_id(id,avatar):
         pass
-        
+
     @classmethod
     def get_user_by_nickname(cls,nickname):
         return cls.objects(nickname=nickname).first()
@@ -114,7 +116,7 @@ class User(db.Document, Validator):
     def get_following_users(self):
         following_users = [x.followed_user for x in Follow.objects(follower=self)]
         return following_users
-        
+
     #check whether this user can send private message to others
     def can_send_pm_to_user(self, userid):
         pass
@@ -135,7 +137,7 @@ class User(db.Document, Validator):
     def notify_counter(self):
         from message import NotifyMessage
         return NotifyMessage.get_user_notify_counter(self)
-        
+
     @property
     def private_counter(self):
         #TO-DO
@@ -175,6 +177,9 @@ class Follow(db.Document):
         else:
             cls(follower=followerid,followed_user=followeduserid).save()
 
+    @classmethod
+    def get_followers_by_user(cls,user):
+        return [x.follower for x in cls.objects(followed_user=user).only("follower")]
 
 
 
