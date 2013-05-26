@@ -167,10 +167,10 @@ def show_user_followers():
 def show_user_followed_users():
     userid          = request.args.get("userid",None)
     user            = User.get_user_by_id(userid)
-    followers       = Follow.get_followers_by_user(user)
+    followed_users  = Follow.get_followed_users_by_user(user)
     
     return render_template("show_followed_users.html",
-                           followers=followers,
+                           followed_users=followed_users,
                            user=user)
 
 

@@ -182,7 +182,9 @@ class Follow(db.Document):
         return [x.follower for x in cls.objects(followed_user=user).only("follower")]
 
 
-
+    @classmethod
+    def get_followed_users_by_user(cls,user):
+        return [x.followed_user for x in cls.objects(follower=user).only("followed_user")]
 
 
 

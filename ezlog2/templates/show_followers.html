@@ -4,7 +4,7 @@
 <div class="offset1 span10">
     <div id="follower_center">
       <div id="legend">
-        <legend class=""> 已经有{{user.follower_counter}}关注{%if user == session["user"]%}你{%else%}{{user.nickname}}{%endif%}
+        <legend class=""> 已经有{{user.follower_counter}}个人关注{%if user == session["user"]%}你{%else%}{{user.nickname}}{%endif%}
         </legend>
       </div>
       {%for follower in followers%}
