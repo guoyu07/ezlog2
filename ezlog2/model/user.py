@@ -124,11 +124,16 @@ class User(db.Document, Validator):
 
     #private message
     def read_message(self, notify_message_id):
-        pass
+        from message import PrivateMessage
+        msg     = PrivateMessage.get_private_message_by_id(id)
+        if msg is None:
+            return False
+        return msg.read(self)
 
     #private message
     def get_unread_message(self):
-        pass
+        from message import PrivateMessage
+        return PrivateMessage.get_private_message_for_user(self)
 
     def get_notify_messages(self):
         from message import NotifyMessage
@@ -137,6 +142,11 @@ class User(db.Document, Validator):
     def notify_counter(self):
         from message import NotifyMessage
         return NotifyMessage.get_user_notify_counter(self)
+        
+    @property
+    def private_message_counter(self):
+        from message import PrivateMessage
+        return PrivateMessage.get_user_private_message_counter(self)
 
     @property
     def private_counter(self):

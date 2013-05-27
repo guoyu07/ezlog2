@@ -60,18 +60,31 @@ class PrivateMessage(db.Document):
         'allow_inheritance': False,
         'index_types': False,
     }
+    
+    @classmethod
+    def get_private_message_by_id(cls,id):
+        return cls.objects(id=id).first()
 
     @classmethod
     def add(cls,content,sender,receiver):
-        pass
+        pm      = cls(content=content,sender=sender,receiver=receiver).save()
+        return pm
+
+        
+    @classmethod
+    def get_user_private_message_counter(cls,user):
+        return len(cls.objects(receiver=user,has_read=False))
 
     @classmethod
     def get_private_message_for_user(cls,user):
-        pass
+        return cls.objects(receiver=user,has_read=False)
 
-
-
-
+    def read(self,user):
+        if user != self.receiver:
+            return False
+        self.has_read = True
+        self.save()
+        return True
 
 
 

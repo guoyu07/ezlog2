@@ -141,8 +141,6 @@ def personal_center(userid=None):
         theuser = session['user']
     else:
         theuser = User.get_user_by_id(userid)
-        return str(theuser)
-
 
     page        = request.args.get("page", 1, type=int)
     tweets      = Tweet.get_users_tweets(theuser,offset=page-1,limit=15)
@@ -168,7 +166,7 @@ def show_user_followed_users():
     userid          = request.args.get("userid",None)
     user            = User.get_user_by_id(userid)
     followed_users  = Follow.get_followed_users_by_user(user)
-    
+
     return render_template("show_followed_users.html",
                            followed_users=followed_users,
                            user=user)
@@ -189,6 +187,7 @@ def read_notify_message():
     if not result:
         return jsonify(rcode=404)
     return jsonify(rcode=200)
+
 
 @user_action.route('/logout')
 def logout():
