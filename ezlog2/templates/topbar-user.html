@@ -1,6 +1,6 @@
 {%if user%}
   {%if user.all_notify_counter ==0%}
-    <span class="badge">0</span>
+    <a href="/useraction/message_center"><span class="badge">0</span></a>
   {%else%}
     <a href="/useraction/message_center"><span class="badge badge-important">{{user.all_notify_counter}}</span></a>
   {%endif%}

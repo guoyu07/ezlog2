@@ -58,6 +58,7 @@ function pm_invoke(receiverid){
   $sender_btn.off().on("click" ,function(e){
     pm_send(receiverid,$content.val());
   });
+  $content.val("");
 }
 
 function pm_send(receiverid,content){
@@ -68,7 +69,7 @@ function pm_send(receiverid,content){
     .done(function (data) {
         console.log(data);
         if(data.rcode == 200){
-          
+          $('#_private_message_input').modal('hide');
         }
     });
 }

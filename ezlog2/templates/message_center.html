@@ -25,6 +25,7 @@
         <ul class="">
           {%for pm in user.get_all_private_message()%}
             <li private_messageid={{pm.id}} {%if pm.has_read%}class="muted del"{%endif%}><button class="close" onclick="delete_pm('{{pm.id}}')">&times;</button> 
+            <a href='#_private_message_input' data-toggle="modal" onclick="pm_invoke('{{pm.sender.id}}')"class="pull-right" style="margin-right:10px;">回复</a>
             你有意封来自{{pm.sender.nickname}}的<a href="#_private_message_view" data-toggle="modal" onclick="read_pm('{{pm.id}}','{{pm.sender.nickname}}','{{pm.content}}')" >私信</a>。
             
             </li>
