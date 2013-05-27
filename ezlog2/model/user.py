@@ -7,6 +7,7 @@ from datetime import datetime as dt
 from flask import g,session,jsonify
 
 from ezlog2.libs.db import db
+from ezlog2.util import find_all_at_users
 
 class Validator(object):
 
@@ -117,6 +118,14 @@ class User(db.Document, Validator):
     def can_send_pm_to_user(self, user):
         return self.is_following(user.id) and \
                     user.is_following(self.id)
+
+    def send_private_message(self,receiverid,content):
+        from message import PrivateMessage,NotifyMessage
+
+        receiver    = User.get_user_by_id(receiverid)
+        pm          = PrivateMessage.add(content,self,receiver)
+        NotifyMessage.add(pm.notify_render(),self,receiver)
+        return True
 
 
     def get_all_private_message(self):

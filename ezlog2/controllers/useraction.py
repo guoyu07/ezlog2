@@ -177,6 +177,15 @@ def message_center():
     return render_template("message_center.html")
 
 
+@user_action.route("/private_message", methods=["POST"])
+def private_message_sender():
+    receiverid          = request.form.get("receiverid", None)
+    content             = request.form.get("content",None)
+    result              = session["user"].send_private_message(receiverid,content)
+    if result is None:
+        return jsonify(rcode=404)
+    return jsonify(rcode=200)
+
 @user_action.route("/read_notify_message",methods=["POST"])
 def read_notify_message():
     messageid   = request.form.get("messageid",None)

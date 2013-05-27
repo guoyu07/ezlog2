@@ -86,6 +86,8 @@ class PrivateMessage(db.Document):
         self.save()
         return True
 
+    def notify_render(self):
+        return "私信。。。。"
 
 
 

@@ -51,17 +51,26 @@ function read_notify(notifyid){
   });
 }
 
-function pm_invoke(recieverid){
+function pm_invoke(receiverid){
   var $pm_input     = $("#_private_message_input");
   var $content      = $("#_pm_content",$pm_input);
   var $sender_btn   = $("#_pm_sender",$pm_input);
   $sender_btn.off().on("click" ,function(e){
-    pm_send(recieverid,$content.val());
+    pm_send(receiverid,$content.val());
   });
 }
 
 function pm_send(receiverid,content){
-
+    $.post("/useraction/private_message", {
+        content : content,
+        receiverid: receiverid
+    })
+    .done(function (data) {
+        console.log(data);
+        if(data.rcode == 200){
+          
+        }
+    });
 }
 
 function retweeet_trigger(tweetid){
