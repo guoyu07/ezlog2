@@ -2,8 +2,8 @@
 import StringIO
 import md5
 
-import Image
-import ImageOps
+from PIL import Image
+from PIL import ImageOps
 
 def generate_url(name):
     if name is None:

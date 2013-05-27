@@ -18,7 +18,7 @@ class Picture(object):
         self.picpil.recreate_file()
         self.operator.save(self.picpil.file)
         self.model.save(self.operator.filename)
-        self.url = generate_url(self.operator.filename)
+        self.url = self.operator.url
 
     def delete(self):
         pass

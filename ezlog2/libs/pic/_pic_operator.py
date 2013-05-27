@@ -11,8 +11,8 @@ try:
     from mongoengine import Document,StringField,FileField
 except ImportError, e:
     pass
-
-from util import sumfile
+from PIL import Image
+from util import sumfile,convert_image_to_file
 
 class PicBaseOperator():
     '''mainly do with save(), delete(),get_url() something either oss or mongoengine'''
@@ -46,15 +46,27 @@ class OssOperator(PicBaseOperator):
     def get_url(self):
         return self.url
 
+class MongoStorage(Document):
+    picture         = FileField()
+
 class MongOperator(PicBaseOperator):
-    def __init__(self, mongo_storage):
+    def __init__(self, mongo_storage = MongoStorage()):
         self.mongo_storage = mongo_storage  #Document Type, need picture attribute
         self.filename      = None
         self.url           = None
+        
+    @classmethod
+    def get_pictue_by_id(cls,id):
+        f = MongoStorage.objects(id=id).first()
+        if f is None:
+            return None
+        im = Image.open(f.picture)
+        return convert_image_to_file(im)
 
     def save(self, file):
         self.mongo_storage.picture.put(file, content_type = 'image/jpeg')
         self.mongo_storage.save()
+        self.url = "/picture/"+str(self.mongo_storage.id)
 
     def delete(self, filename):
         self.mongo_storage.picture.delete()
@@ -62,8 +74,7 @@ class MongOperator(PicBaseOperator):
     def get_url(self):
         return self.url
 
-class MongoStorage(Document):
-    picture         = FileField()
+
 
 class DiskOperator(PicBaseOperator):
     pass
