@@ -77,7 +77,7 @@ class PrivateMessage(db.Document):
 
     @classmethod
     def get_private_message_for_user(cls,user):
-        return cls.objects(receiver=user,has_read=False)
+        return cls.objects(receiver=user)
 
     def read(self,user):
         if user != self.receiver:

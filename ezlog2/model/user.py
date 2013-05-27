@@ -98,10 +98,6 @@ class User(db.Document, Validator):
         user = cls.objects(nickname=nickname).first()
         return user is not None
 
-    @staticmethod
-    def change_password(original_pw, changed_pw):
-        pass
-
     def is_following(self, followeduserid):
         #print "the fo: ", type(followeduserid)
         if(followeduserid is None):
@@ -118,9 +114,14 @@ class User(db.Document, Validator):
         return following_users
 
     #check whether this user can send private message to others
-    def can_send_pm_to_user(self, userid):
-        pass
+    def can_send_pm_to_user(self, user):
+        return self.is_following(user.id) and \
+                    user.is_following(self.id)
 
+
+    def get_all_private_message(self):
+        from message import PrivateMessage
+        return PrivateMessage.get_private_message_for_user(self)
 
     #private message
     def read_message(self, notify_message_id):
@@ -130,10 +131,10 @@ class User(db.Document, Validator):
             return False
         return msg.read(self)
 
-    #private message
-    def get_unread_message(self):
-        from message import PrivateMessage
-        return PrivateMessage.get_private_message_for_user(self)
+    #unread private message
+    # def get_unread_message(self):
+        # from message import PrivateMessage
+        # return PrivateMessage.get_private_message_for_user(self)
 
     def get_notify_messages(self):
         from message import NotifyMessage
@@ -142,7 +143,7 @@ class User(db.Document, Validator):
     def notify_counter(self):
         from message import NotifyMessage
         return NotifyMessage.get_user_notify_counter(self)
-        
+
     @property
     def private_message_counter(self):
         from message import PrivateMessage
@@ -150,8 +151,8 @@ class User(db.Document, Validator):
 
     @property
     def private_counter(self):
-        #TO-DO
-        return 0
+        return self.private_message_counter
+
     @property
     def following_counter(self):
         return len(Follow.objects(follower=self))
