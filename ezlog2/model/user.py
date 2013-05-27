@@ -44,7 +44,7 @@ class Admin(db.Document, Validator):
 class User(db.Document, Validator):
     email       = db.StringField(required = True)
     nickname    = db.StringField(required = True)
-    avatar      = db.StringField()#probably change it
+    avatar      = db.StringField(default="/static/default_avatar.jpg")
     password    = db.StringField(required = True)
     create_date = db.DateTimeField(default = dt.now)
 

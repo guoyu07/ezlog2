@@ -10,8 +10,8 @@
       {%for follower in followed_users%}
       <div class="offset1 span10 people_in_list">
           <div class='span2'>
-            <a href="#" class="">
-              <img data-src="holder.js/100x100" data-placement="right" class='img-polaroid'>
+            <a href="/personal_center/{{follower.id}}" class="">
+              <img src="{{follower.avatar}}" data-placement="right" class='img-polaroid'>
             </a>
           </div>
           <div class="span10">

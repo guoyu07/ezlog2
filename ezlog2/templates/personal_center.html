@@ -10,16 +10,16 @@
     {%endif%}
       <div class="row-fluid">
       <div class="span2">
-            <img data-src="holder.js/80x80" class='img-polaroid'>
+            <img src="{{theuser.avatar}}" class='img-polaroid' width=80 >
             <br />
             <br />
-            <a href="/useraction/followed_users?userid={{user.id}}">关注
+            <a href="/useraction/followed_users?userid={{theuser.id}}">关注
               <span class="badge badge-info">{{theuser.following_counter}}</span>
             </a> <br />
-            <a href="/useraction/followers?userid={{user.id}}">粉丝
+            <a href="/useraction/followers?userid={{theuser.id}}">粉丝
               <span class="badge badge-info">{{theuser.follower_counter}}</span>
             </a> <br />
-            <a href="/personal_center/{{user.id}}">微博
+            <a href="/personal_center/{{theuser.id}}">微博
               <span class="badge badge-info">{{theuser.tweet_counter}}</span>
             </a><br />
             {%if user.can_send_pm_to_user(theuser)%}
