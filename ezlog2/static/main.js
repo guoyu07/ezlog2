@@ -208,6 +208,15 @@ var show_tweet_comment = (function(tweetid){
     }
 })();
 
+
+function comment_comment(node,nickname){
+  var $this     = $(node);
+  var $comment  = $this.parent().parent().parent().parent();
+  var $input    = $("input",$comment);
+  $input.val("@"+nickname+" ");
+
+}
+
 function send_tweet_comment(tweetid){
     var tweet_comment_input = $('[tweetid='+tweetid+']' + " .tweet_comment input");
     var tweet_comment_list = $('[tweetid='+tweetid+']' + " .tweet_comment");
