@@ -23,7 +23,7 @@
               <span class="badge badge-info">{{theuser.tweet_counter}}</span>
             </a><br />
             {%if user.can_send_pm_to_user(theuser)%}
-             <a href="javascript:void(0);">
+             <a href='#_private_message_input' data-toggle="modal" onclick="pm_invoke('{{theuser.id}}')">
               发送私信
              </a>
             {%endif%}

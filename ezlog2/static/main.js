@@ -49,6 +49,18 @@ function read_notify(notifyid){
       
       }
   });
+}
+
+function pm_invoke(recieverid){
+  var $pm_input     = $("#_private_message_input");
+  var $content      = $("#_pm_content",$pm_input);
+  var $sender_btn   = $("#_pm_sender",$pm_input);
+  $sender_btn.off().on("click" ,function(e){
+    pm_send(recieverid,$content.val());
+  });
+}
+
+function pm_send(receiverid,content){
 
 }
 
