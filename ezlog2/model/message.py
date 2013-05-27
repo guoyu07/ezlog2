@@ -39,7 +39,7 @@ class NotifyMessage(db.Document):
     @classmethod
     def get_notify_message_for_user(cls,user):
         return cls.objects(receiver=user,has_read=False)
-    
+
     def read(self,user):
         if user != self.receiver:
             return False
@@ -60,7 +60,7 @@ class PrivateMessage(db.Document):
         'allow_inheritance': False,
         'index_types': False,
     }
-    
+
     @classmethod
     def get_private_message_by_id(cls,id):
         return cls.objects(id=id).first()
@@ -70,7 +70,7 @@ class PrivateMessage(db.Document):
         pm      = cls(content=content,sender=sender,receiver=receiver).save()
         return pm
 
-        
+
     @classmethod
     def get_user_private_message_counter(cls,user):
         return len(cls.objects(receiver=user,has_read=False))
@@ -86,8 +86,6 @@ class PrivateMessage(db.Document):
         self.save()
         return True
 
-    def notify_render(self):
-        return "私信。。。。"
 
 
 

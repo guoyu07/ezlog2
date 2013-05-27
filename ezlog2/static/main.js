@@ -73,6 +73,17 @@ function pm_send(receiverid,content){
     });
 }
 
+function read_pm(pmid,nickname,content){
+  var $view   = $("#_private_message_view");
+  var $title  = $("#_pm_title",$view);
+  var $content= $("#_pm_content",$view);
+  $title.html("来自"+nickname+"的私信");
+  $content.html(content);
+  
+  
+
+}
+
 function retweeet_trigger(tweetid){
   var tweet = $('[tweetid='+tweetid+']');
 

@@ -120,11 +120,10 @@ class User(db.Document, Validator):
                     user.is_following(self.id)
 
     def send_private_message(self,receiverid,content):
-        from message import PrivateMessage,NotifyMessage
+        from message import PrivateMessage
 
         receiver    = User.get_user_by_id(receiverid)
         pm          = PrivateMessage.add(content,self,receiver)
-        NotifyMessage.add(pm.notify_render(),self,receiver)
         return True
 
 
@@ -152,6 +151,10 @@ class User(db.Document, Validator):
     def notify_counter(self):
         from message import NotifyMessage
         return NotifyMessage.get_user_notify_counter(self)
+        
+    @property
+    def all_notify_counter(self):
+        return self.notify_counter + self.private_message_counter
 
     @property
     def private_message_counter(self):
