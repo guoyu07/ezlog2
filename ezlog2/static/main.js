@@ -88,9 +88,17 @@ function read_pm(pmid,nickname,content){
       
       }
   });
-  
-  
+}
 
+function delete_pm(pmid){
+  $.post("/useraction/delete_private_message", {
+      pmid : pmid
+  })
+  .done(function (data) {
+      if(data.rcode == 200){
+        $('[private_messageid='+pmid+']').hide();
+      }
+  });
 }
 
 function retweeet_trigger(tweetid){

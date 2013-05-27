@@ -70,7 +70,9 @@ class PrivateMessage(db.Document):
         pm      = cls(content=content,sender=sender,receiver=receiver).save()
         return pm
 
-
+    def safe_delete(self):
+        self.delete()
+        
     @classmethod
     def get_user_private_message_counter(cls,user):
         return len(cls.objects(receiver=user,has_read=False))

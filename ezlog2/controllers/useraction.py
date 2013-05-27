@@ -197,6 +197,15 @@ def read_private_message():
         return jsonify(rcode=404)
     return jsonify(rcode=200)
 
+@user_action.route("/delete_private_message",methods=["POST"])
+def delete_private_message():
+    pmid        = request.form.get("pmid",None)
+    pm          = PrivateMessage.get_private_message_by_id(pmid)
+    if pm is None:
+        return jsonify(rcode=404)
+    pm.delete()
+    return jsonify(rcode=200)
+
 @user_action.route("/read_notify_message",methods=["POST"])
 def read_notify_message():
     messageid   = request.form.get("messageid",None)
