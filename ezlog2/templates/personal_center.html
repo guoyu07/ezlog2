@@ -3,23 +3,31 @@
 {%block singlepage%}
 <div class="offset1 span10">
     <div id="personal_info">
+    {%if theuser == user%}
       <div id="legend">
         <legend class="">个人中心</legend>
       </div>
+    {%endif%}
       <div class="row-fluid">
       <div class="span2">
             <img data-src="holder.js/80x80" class='img-polaroid'>
             <br />
             <br />
             <a href="">关注
-              <span class="badge badge-info">{{user.following_counter}}</span>
+              <span class="badge badge-info">{{theuser.following_counter}}</span>
             </a> <br />
             <a href="/useraction/followers?userid={{user.id}}">粉丝
-              <span class="badge badge-info">{{user.follower_counter}}</span>
+              <span class="badge badge-info">{{theuser.follower_counter}}</span>
             </a> <br />
             <a href="/personal_center/{{user.id}}">微博
-              <span class="badge badge-info">{{user.tweet_counter}}</span>
-            </a>
+              <span class="badge badge-info">{{theuser.tweet_counter}}</span>
+            </a><br />
+            {%if user.can_send_pm_to_user(theuser)%}
+             <a href="javascript:void(0);">
+              发送私信
+             </a>
+            {%endif%}
+            
       </div>
 
       <div class="span10">
@@ -74,3 +82,8 @@
 
 </div>
 {%endblock%}
+{%block custom_style%}
+  {%if theuser and theuser.theme !="default"%}
+    <link href="/static/theme/{{theuser.theme}}/style.css" rel="stylesheet">
+  {%endif%}
+  {%endblock%}

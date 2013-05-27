@@ -12,9 +12,11 @@
     <link href="/static/lib/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet">
     <link href="/static/lib/atjs/jquery.atwho.css" rel="stylesheet">
+    {%block custom_style%}
     {%if user and user.theme !="default"%}
       <link href="/static/theme/{{user.theme}}/style.css" rel="stylesheet">
     {%endif%}
+    {%endblock%}
     <link href="/static/main.css" rel="stylesheet">
 
   </head>

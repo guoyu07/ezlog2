@@ -4,7 +4,7 @@
 <div class="offset1 span10">
     <div id="follower_center">
       <div id="legend">
-        <legend class=""> {%if user == session["user"]%}你{%else%}{{user.nickname}}{%endif%}关注了{{user.following_counter}}个人
+        <legend class=""> {%if user == theuser%}你{%else%}{{theuser.nickname}}{%endif%}关注了{{theuser.following_counter}}个人
         </legend>
       </div>
       {%for follower in followed_users%}
@@ -15,10 +15,10 @@
             </a>
           </div>
           <div class="span10">
-            {{follower.nickname or ""}} {{follower.gender or ""}} 地址：{{follower.addr or "未填写"}}
+            <a href="/personal_center/{{follower.id}}">{{follower.nickname or ""}}</a> {{follower.gender or ""}} 地址：{{follower.addr or "未填写"}}
           </div>
           <div class="span10">
-            <a href="">关注
+            <a href="/useraction/followed_users?userid={{follower.id}}">关注
               <span class="badge badge-info">{{follower.following_counter}}</span>
             </a>|
             <a href="/useraction/followers?userid={{follower.id}}">粉丝

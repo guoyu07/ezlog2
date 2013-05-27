@@ -159,7 +159,7 @@ def show_user_followers():
 
     return render_template("show_followers.html",
                            followers=followers,
-                           user=user)
+                           theuser=user)
 
 @user_action.route("/followed_users", methods=["GET"])
 def show_user_followed_users():
@@ -169,7 +169,7 @@ def show_user_followed_users():
 
     return render_template("show_followed_users.html",
                            followed_users=followed_users,
-                           user=user)
+                           theuser=user)
 
 
 @user_action.route("/message_center",methods=["GET"])
