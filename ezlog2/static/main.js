@@ -80,6 +80,15 @@ function read_pm(pmid,nickname,content){
   $title.html("来自"+nickname+"的私信");
   $content.html(content);
   
+  $.post("/useraction/read_private_message", {
+      pmid : pmid
+  })
+  .done(function (data) {
+      if(data.rcode == 200){
+      
+      }
+  });
+  
   
 
 }

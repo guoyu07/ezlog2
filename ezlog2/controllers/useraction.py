@@ -185,6 +185,17 @@ def private_message_sender():
     if result is None:
         return jsonify(rcode=404)
     return jsonify(rcode=200)
+    
+@user_action.route("/read_private_message",methods=["POST"])
+def read_private_message():
+    pmid        = request.form.get("pmid",None)
+    pm          = PrivateMessage.get_private_message_by_id(pmid)
+    if pm is None:
+        return jsonify(rcode=404)
+    result = pm.read(session['user'])
+    if not result:
+        return jsonify(rcode=404)
+    return jsonify(rcode=200)
 
 @user_action.route("/read_notify_message",methods=["POST"])
 def read_notify_message():

@@ -77,7 +77,7 @@ class PrivateMessage(db.Document):
 
     @classmethod
     def get_private_message_for_user(cls,user):
-        return cls.objects(receiver=user)
+        return cls.objects(receiver=user).order_by("-create_date")
 
     def read(self,user):
         if user != self.receiver:
