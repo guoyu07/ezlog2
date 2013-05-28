@@ -80,7 +80,9 @@ function uploader_init() {
         uploadFinished : function (i, file, response, time) {
             // response is the data you got back from server in JSON format.
             console.log("upload finished");
-            console.log('response:'+response);
+            console.log('response:');
+            console.log(response);
+            dopzone.html("<p>图片上传完毕，请添加图片描述</p>")
         },
         progressUpdated : function (i, file, progress) {
             // this function is used for large files and updates intermittently

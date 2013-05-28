@@ -48,6 +48,15 @@ class OssOperator(PicBaseOperator):
 
 class MongoStorage(Document):
     picture         = FileField()
+    name            = StringField()
+    
+    @classmethod
+    def get_picture_by_name(cls,name):
+        return cls.objects(name=name).first()
+        
+    @classmethod
+    def is_pic_exist(cls,name):
+        return cls.objects(name=name).first() is not None
 
 class MongOperator(PicBaseOperator):
     def __init__(self, mongo_storage = MongoStorage()):
@@ -64,9 +73,16 @@ class MongOperator(PicBaseOperator):
         return convert_image_to_file(im)
 
     def save(self, file):
-        self.mongo_storage.picture.put(file, content_type = 'image/jpeg')
-        self.mongo_storage.save()
-        self.url = "/picture/"+str(self.mongo_storage.id)
+        filename           = sumfile(file)
+        self.mongo_storage = MongoStorage.get_picture_by_name(filename)
+        if self.mongo_storage is not None:
+            self.url = "/picture/"+str(self.mongo_storage.id)
+        else:
+            self.mongo_storage = MongoStorage()
+            self.mongo_storage.picture.put(file, content_type = 'image/jpeg')
+            self.mongo_storage.name = filename
+            self.mongo_storage.save()
+            self.url = "/picture/"+str(self.mongo_storage.id)
 
     def delete(self, filename):
         self.mongo_storage.picture.delete()
