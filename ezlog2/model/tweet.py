@@ -61,10 +61,9 @@ class Tweet(db.Document):
 
     @classmethod
     def get_tweets_foruser(cls,user, limit=15, offset=0):
-        start       = offset*limit
-        end         = offset*limit+limit
+        start           = offset*limit
+        end             = offset*limit+limit
         following_users = user.get_following_users()
-
         tweets = cls.objects(poster__in=[x.id for x in following_users]+[user.id])\
                   .order_by("-create_date")[start:end]
         return tweets
@@ -73,8 +72,8 @@ class Tweet(db.Document):
     def get_users_tweets(cls, user, limit=15, offset=0):
         start       = offset*limit
         end         = offset*limit+limit
-        tweets = cls.objects(poster=user)\
-                  .order_by("-create_date")[start:end]
+        tweets      = cls.objects(poster=user)\
+                        .order_by("-create_date")[start:end]
         return tweets
 
 

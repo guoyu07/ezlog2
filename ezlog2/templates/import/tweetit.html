@@ -2,8 +2,8 @@
 {% macro make_tweet(user,tweet, content, comment = "", floor=1,incontent=False) -%}
 <div class='tweet row-fluid' tweetid='{{tweet.id}}' floor={{floor}}>
     <div class='tweet_poster_atvatar span2'>
-        <a href="/personal_center/{{user.id}}" class="">
-            <img src="{{user.avatar}}" data-placement="right" class='img-polaroid' width=50 >
+        <a  class="">
+            <a href="/personal_center/{{user.id}}"> <img  src="{{user.avatar}}" data-placement="right" class='img-polaroid' width=50 ></a>
             {%if user!=tweet.poster%}
               {%if user and user.is_following(tweet.poster.id)%}
               <button class='btn btn-link follow-btn' onclick="toggle_follow('{{tweet.poster.id}}',this)">取消关注</button>
