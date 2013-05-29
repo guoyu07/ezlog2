@@ -7,60 +7,22 @@
     atjs_ini_('textarea');
     atjs_ini_('input');
     uploader_init();
-
+    avatar_uploader_init();
 
 });
 
 function uploader_init() {
-    var dopzone = $('.dropzone');
-    $('.dropzone').filedrop({
+    var dopzone = $('#_pic_tweet .dropzone');
+    $('#_pic_tweet .dropzone').filedrop({
         fallback_id : 'addfile', // an identifier of a standard file input element
         url : '/picture/action/save', // upload handler, handles each file separately, can also be a function returning a url
         paramname : 'file', // POST parameter name used on serverside to reference file
         withCredentials : false, // make a cross-origin request with cookies
         data : {
         },
-        // headers : { // Send additional request headers
-        // 'header' : 'value'
-        // },
-        error : function (err, file) {
-            switch (err) {
-            case 'BrowserNotSupported':
-                console.log('browser does not support html5 drag and drop')
-                break;
-            case 'TooManyFiles':
-                // user uploaded more than 'maxfiles'
-                break;
-            case 'FileTooLarge':
-                // program encountered a file whose size is greater than 'maxfilesize'
-                // FileTooLarge also has access to the file which was too large
-                // use file.name to reference the filename of the culprit file
-                break;
-            case 'FileTypeNotAllowed':
-                // The file type is not in the specified list 'allowedfiletypes'
-                console.log("file not allow");
-            default:
-                break;
-            }
-        },
         allowedfiletypes : ['image/jpeg', 'image/png', 'image/gif'], // filetypes allowed by Content-Type.  Empty array means no restrictions
         maxfiles : 25,
         maxfilesize : 20, // max file size in MBs
-        dragOver : function () {
-            // console.log("dragover");
-        },
-        dragLeave : function () {
-            // user dragging files out of #dropzone
-            // console.log("dragLeave");
-        },
-        docOver : function () {
-            // user dragging files anywhere inside the browser document window
-            // console.log("docOver");
-        },
-        docLeave : function () {
-            // user dragging files out of the browser document window
-            // console.log("docLeave");
-        },
         drop : function (e) {
             // user drops file
             var files = e.target.files;
@@ -69,53 +31,59 @@ function uploader_init() {
             }
             console.log(files);
             var file = files[0];
-            // console.log("drop");
         },
         uploadStarted : function (i, file, len) {
-            // a file began uploading
-            // i = index => 0, 1, 2, 3, 4 etc
-            // file is the actual file of the index
             // len = total files user dropped
         },
         uploadFinished : function (i, file, response, time) {
-            // response is the data you got back from server in JSON format.
             console.log("upload finished");
             console.log('response:');
             console.log(response);
             dopzone.html("<p>图片上传完毕，请添加图片描述</p>")
         },
         progressUpdated : function (i, file, progress) {
-            // this function is used for large files and updates intermittently
-            // progress is the integer value of file being uploaded percentage to completion
             console.log("process:" + progress);
             $('#upload-process').width(progress + "%");
         },
-        globalProgressUpdated : function (progress) {
-            // progress for all the files uploaded on the current instance (percentage)
-            // ex: $('#progress div').width(progress+"%");
+    });
+}
+
+function avatar_uploader_init() {
+    var dopzone = $('#_avatar_upload .dropzone');
+    $('#_avatar_upload .dropzone').filedrop({
+        fallback_id : 'avatart_addfile', // an identifier of a standard file input element
+        url : '/picture/action/save', // upload handler, handles each file separately, can also be a function returning a url
+        paramname : 'file', // POST parameter name used on serverside to reference file
+        withCredentials : false, // make a cross-origin request with cookies
+        data : {
+          type:"avatar"
         },
-        speedUpdated : function (i, file, speed) {
-            // speed in kb/s
+        allowedfiletypes : ['image/jpeg', 'image/png', 'image/gif'], // filetypes allowed by Content-Type.  Empty array means no restrictions
+        maxfiles : 25,
+        maxfilesize : 20, // max file size in MBs
+        drop : function (e) {
+            // user drops file
+            var files = e.target.files;
+            if (files == undefined) {
+                files = e.dataTransfer.files;
+            }
+            console.log(files);
+            var file = files[0];
         },
-        rename : function (name) {
-            // name in string format
-            // must return alternate name as string
+        uploadStarted : function (i, file, len) {
+            // len = total files user dropped
         },
-        beforeEach : function (file) {
-            // file is a file object
-            // return false to cancel upload
+        uploadFinished : function (i, file, response, time) {
+            console.log("upload finished");
+            console.log('response:');
+            console.log(response);
+            dopzone.html("<p>图片上传完毕，请添加图片描述</p>");
+            location.reload();
         },
-        /*
-        beforeSend : function (file, i, done) {
-        // file is a file object
-        // i is the file index
-        // call done() to start the upload
-            start_upload = done;
+        progressUpdated : function (i, file, progress) {
+            console.log("process:" + progress);
+            $('#upload-process').width(progress + "%");
         },
-        */
-        // afterAll : function () {
-        // runs after all files have been uploaded or otherwise dealt with
-        // }
     });
 }
 

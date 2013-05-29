@@ -123,6 +123,7 @@ def user_info_setting():
     flash(u"修改成功",'info')
     session['user'] = user
     return redirect(url_for("setting_view"))
+    
 
 @user_action.route('/page_setting', methods=["POST"])
 def page_setting():

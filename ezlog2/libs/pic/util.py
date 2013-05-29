@@ -36,6 +36,7 @@ def sumfile(fobj):
         if not d:
             break
         m.update(d)
+    fobj.seek(0)
     return m.hexdigest()
 
 def get_image_file(url):

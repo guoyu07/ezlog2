@@ -19,11 +19,19 @@ def get_picture(id):
 @app.route("/picture/action/save", methods=["POST"])
 def save_picture():
     file = request.files.get("file", None)
+    type = request.form.get("type", None)
     if file is None:
         return jsonify(rcode=404, msg="file required")
 
     pic  = Picture(file,operator=MongOperator)
     pic.save()
+
+    if type == "avatar":
+        user = session["user"]
+        user.avatar = pic.get_url()
+        user.save()
+        session["user"] = user
+
     return jsonify(url=pic.get_url(),rcode=200)
 
 
