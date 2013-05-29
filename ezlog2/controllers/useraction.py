@@ -26,10 +26,11 @@ def inject_user():
 
 @user_action.route('/tweet', methods=['POST'])
 def tweet():
-    content = request.form['content']
-    content = clean(content)
+    content  = request.form['content']
+    extra_pic= request.form.get("extra",None)
+    content  = clean(content)
     posterid = session['user'].id
-    t = Tweet(content=content,poster=session['user'])
+    t = Tweet(content=content,poster=session['user'],extra_pic=extra_pic)
     t.tweet()
     new_tweet = render_template('include/show_tweet.html', tweet = t)
     return jsonify(result="done", newtweet = new_tweet)

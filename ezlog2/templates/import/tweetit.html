@@ -19,7 +19,12 @@
         </p>
         <p class='over-hidden'>{{content|linkify|safe}}
         </p>
-
+        {%if tweet.extra_pic%}
+        <p class='over-hidden thumbnail'>
+          <img src="{{tweet.extra_pic}}" class="img-rounded">
+        </p>
+        {%endif%}
+        
         <span class='tweet_info'>
             <small class='label label-info' title='{{tweet.create_date}}'>{{tweet.create_date|timesince}}</small> |
             <a href='mailto:itsfake@addr.com'><small> 举报</small></a>

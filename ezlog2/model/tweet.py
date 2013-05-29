@@ -16,6 +16,7 @@ class Tweet(db.Document):
     retweetid          = db.StringField(default = "")
     retweet_comment    = db.StringField()
     create_date        = db.DateTimeField(default = dt.now)
+    extra_pic          = db.StringField(default = "")
 
     poster             = db.ReferenceField(User, dbref=True)
 

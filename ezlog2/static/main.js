@@ -13,6 +13,7 @@
 
 function uploader_init() {
     var dopzone = $('#_pic_tweet .dropzone');
+    var sender  = $("#_pt_sender");
     $('#_pic_tweet .dropzone').filedrop({
         fallback_id : 'addfile', // an identifier of a standard file input element
         url : '/picture/action/save', // upload handler, handles each file separately, can also be a function returning a url
@@ -32,19 +33,29 @@ function uploader_init() {
             }
             console.log(files);
             var file = files[0];
-            
+            console.log(file.name);
+            dopzone.html("<p>"+file.name+"</p>")
+
         },
-        uploadStarted : function (i, file, len) {
+        uploadStarted : function (i, files, len) {
             // len = total files user dropped
-            console.log(i);
-            console.log(file);
-            console.log(len);
         },
         uploadFinished : function (i, file, response, time) {
             console.log("upload finished");
             console.log('response:');
             console.log(response);
             dopzone.html("<p>图片上传完毕，请添加图片描述</p>")
+            sender.off().on("click",function(e){
+                $.post("/useraction/tweet", {
+                    content : $('#_pt_input').val(),
+                    extra:response.url
+                }).done(function (data) {
+                  if(data.result == "done"){
+                    location.reload();
+                  }
+                });
+            
+            });
         },
         progressUpdated : function (i, file, progress) {
             console.log("process:" + progress);
@@ -126,7 +137,7 @@ function read_notify(notifyid){
   .done(function (data) {
       if(data.rcode == 200){
         $('[notifyid='+notifyid+']').hide();
-      
+
       }
   });
 }
@@ -160,13 +171,13 @@ function read_pm(pmid,nickname,content){
   var $content= $("#_pm_content",$view);
   $title.html("来自"+nickname+"的私信");
   $content.html(content);
-  
+
   $.post("/useraction/read_private_message", {
       pmid : pmid
   })
   .done(function (data) {
       if(data.rcode == 200){
-      
+
       }
   });
 }
@@ -195,7 +206,7 @@ function retweeet_trigger(tweetid){
   }else{
     $content.val("");
   }
-  
+
   sender_btn.off().on("click",function(e){
     retweet(tweetid,$content.val());
   });
@@ -269,7 +280,6 @@ function tweet_send_acion(){
             $('#compose_message').val("");
             $('.counter').html("剩余字数 140");
             localStorage.removeItem('publisherTop_word');
-            Holder.run()
         }
     });
 }
