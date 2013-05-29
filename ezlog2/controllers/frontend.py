@@ -43,6 +43,11 @@ def newest():
                             tweets = tweets,
                             more_url = url_for("newest",page=page+1))
 
+@app.route("/user/nickname/<string:nickname>",methods=["GET"])
+def show_user_by_nickname(nickname):
+    userid      = User.get_user_by_nickname(nickname).id
+    return redirect(url_for("personal_center",userid=userid))
+
 @app.route("/login", methods = ['GET' ,'POST'])
 def login():
     if(request.method == "GET"):

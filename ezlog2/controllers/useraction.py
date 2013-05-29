@@ -37,6 +37,7 @@ def tweet():
 @user_action.route('/retweet', methods=['POST'])
 def retweet():
     comment         = request.form['comment']
+    comment         = clean(comment)
     originalid      = request.form['originalid']
     poster          = session['user']
     t               = Tweet.retweetit(originalid,comment,poster)
@@ -47,6 +48,7 @@ def retweet():
 def comment():
     tweetid = request.form['tweetid']
     content = request.form['content']
+    content = clean(content)
     c = Comment.add(content, Tweet.get_tweet_byid(tweetid), session['user'])
     new_comment = render_template('include/show_comment.html', comment = c)
     return jsonify(result="done", newcomment = new_comment)
@@ -57,11 +59,9 @@ def toggle_follow():
     Follow.toggle_follow(session['user'], User.get_user_by_id(followeduserid))
     return jsonify(result="done")
 
-
 @user_action.route('/setting', methods=["GET"])
 def setting_view():
     return render_template("setting.html")
-
 
 @user_action.route('/basic_setting', methods=["POST"])
 def basic_setting():
@@ -218,24 +218,8 @@ def read_notify_message():
         return jsonify(rcode=404)
     return jsonify(rcode=200)
 
-
 @user_action.route('/logout')
 def logout():
     session.pop('user')
     flash(u"登出成功!","info")
     return redirect('/')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

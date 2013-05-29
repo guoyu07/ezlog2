@@ -17,7 +17,7 @@ def clean(text):
 def linkify(text):
     t_text = text + " "
     t_text = bleach.linkify(t_text)
-    t_text = re.sub(r"(@\w+) ",r'<a href="/user/nickname/\g<1>">\g<1></a>',t_text)
+    t_text = re.sub(r"(@(\w+)) ",r'<a href="/user/nickname/\g<2>">\g<1></a>',t_text)
     return t_text
 
 def find_all_at_users(content):
