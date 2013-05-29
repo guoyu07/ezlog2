@@ -4,8 +4,21 @@ from datetime import datetime as dt
 from time import mktime
 import random
 import re
+import bleach
 
 _at_user_re = re.compile(ur"@(\w+) ")
+
+
+def clean(text):
+    return bleach.clean(
+        text,
+        strip=True)
+
+def linkify(text):
+    t_text = text + " "
+    t_text = bleach.linkify(t_text)
+    t_text = re.sub(r"(@\w+) ",r'<a href="/user/nickname/\g<1>">\g<1></a>',t_text)
+    return t_text
 
 def find_all_at_users(content):
     tstr    = content + " "

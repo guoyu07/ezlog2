@@ -15,9 +15,9 @@
     </div>
     <div class='tweet_content span10'>
         <p><a class="retweet_poster" href='/personal_center/{{tweet.poster.id}}'>{{tweet.poster.nickname}}</a></p>
-        <p class='over-hidden retweet_comment'>{{comment}}
+        <p class='over-hidden retweet_comment'>{{comment|linkify|safe}}
         </p>
-        <p class='over-hidden'>{{content}}
+        <p class='over-hidden'>{{content|linkify|safe}}
         </p>
 
         <span class='tweet_info'>

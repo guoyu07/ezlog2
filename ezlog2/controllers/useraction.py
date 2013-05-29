@@ -7,7 +7,7 @@ import re
 from ezlog2 import app
 from ezlog2.model import User,Tweet, Comment, Follow
 from ezlog2.model.message import NotifyMessage,PrivateMessage
-from ezlog2.util import random_int,sha224
+from ezlog2.util import random_int,sha224,clean
 user_action = Module(__name__)
 
 
@@ -27,6 +27,7 @@ def inject_user():
 @user_action.route('/tweet', methods=['POST'])
 def tweet():
     content = request.form['content']
+    content = clean(content)
     posterid = session['user'].id
     t = Tweet(content=content,poster=session['user'])
     t.tweet()

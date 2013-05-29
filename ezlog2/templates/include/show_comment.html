@@ -7,7 +7,7 @@
     </div>
 
     <div class='span11'>
-        <p class='over-hidden'>{{comment.content}}</p>
+        <p class='over-hidden'>{{comment.content|linkify|safe}}</p>
         <button class='btn btn-link pull-right' onclick="comment_comment(this,'{{comment.commenter.nickname}}')"><small>回复</small></button>
     </div>
 </div>

@@ -8,7 +8,7 @@ from flask.ext.admin import Admin
 #import flask.ext.assets as fassets
 
 import config.conf as conf
-from util import readable_time
+from util import readable_time,linkify,clean
 
 app = Flask(__name__)
 
@@ -26,4 +26,6 @@ def something_before_request():
 import controllers
 import blueprints
 app.register_module(controllers.useraction.user_action, url_prefix="/useraction")
-app.jinja_env.filters['timesince'] = readable_time
+app.jinja_env.filters['timesince']  = readable_time
+app.jinja_env.filters['linkify']    = linkify
+app.jinja_env.filters['clean']      = clean
