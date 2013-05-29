@@ -1,4 +1,5 @@
 from collections import Counter,defaultdict
+import itertools
 
 import jieba
 
@@ -6,9 +7,10 @@ from ezlog2.libs.db import db
 from ezlog2.model.tweet import Tweet
 
 class DocItem(db.EmbeddedDocument):
-    doc_id = db.ObjectIdField(required=True)
-    score = db.FloatField(required=True)
-    meta = {
+    doc     = db.ReferenceField(Tweet, required=True)
+    score   = db.FloatField(required=True)
+
+    meta    = {
         'index_types': False,
     }
 
@@ -37,10 +39,31 @@ class SearchIndex(db.Document):
         for t in tweets:
             counter     = _keyword_count(t.content)
             for key in counter:
-                final_d[key].append((t.id,counter[key]))
+                final_d[key].append((t,counter[key]))
 
         SearchIndex.drop_collection()
         for key in final_d:
             si      = SearchIndex(keyword=key)
-            si.doc_list.extend([DocItem(doc_id=doc_id, score=score) for doc_id,score in final_d[key]])
+            si.doc_list.extend([DocItem(doc=doc, score=score) for doc,score in final_d[key]])
             si.save()
+
+    @classmethod
+    def get_tweets_by_keywords(cls,keywords,limit=10,offset=0):
+        start     = offset*limit
+        end       = offset*limit + limit
+        doc_lists = (x.doc_list for x in SearchIndex.objects(keyword__in=keywords).only("doc_list"))
+        docs      = itertools.chain.from_iterable(doc_lists)
+        counter   = Counter()
+        for d in docs:
+            counter[d] +=d.score
+
+        sorted_d = sorted(counter.iteritems(),key=lambda x:-x[1])[start:end]
+
+        return [x.doc for x in sorted_d]
+
+
+
+
+
+
+

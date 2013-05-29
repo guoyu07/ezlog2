@@ -5,6 +5,7 @@ from flask import Module, url_for, \
 
 from ezlog2 import app
 from ezlog2.model import User, Tweet, Comment
+from ezlog2.model.search import SearchIndex
 from ezlog2.util import sha224
 
 
@@ -36,7 +37,6 @@ def show_single_tweet(tweetid):
 
 @app.route("/newest")
 def newest():
-
     page    = request.args.get("page", 1, type=int)
     tweets  = Tweet.get_newest_tweets(offset=page-1,limit=15)
     return render_template('newest.html',
@@ -62,6 +62,18 @@ def login():
     else:
         flash(u'登入失败, 请重试','error')
         return redirect(url_for('login'))
+
+@app.route("/search",methods=["POST"])
+def search():
+    keyword     = request.form.get("keyword",None)
+    if not keyword:
+        flash(u"需要搜索参数！","error")
+        return redirect(url_for("newest"))
+    keywords    = keyword.split()
+    tweets      = SearchIndex.get_tweets_by_keywords(keywords)
+    
+    return render_template("search.html", tweets=tweets)
+    
 
 @app.route("/register", methods=['GET','POST'])
 def register():
