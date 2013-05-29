@@ -33,6 +33,7 @@
       fallback_id: '',
       url: '',
       refresh: 1000,
+      button:empty,
       paramname: 'userfile',
       allowedfiletypes:[],
       maxfiles: 25,           // Ignored if queuefiles is set > 0
@@ -69,19 +70,29 @@
   $.fn.filedrop = function(options) {
     var opts = $.extend({}, default_opts, options),
         global_progress = [];
+        
+    var button = opts.button;
 
-    this.on('drop', drop).on('dragstart', opts.dragStart).on('dragenter', dragEnter).on('dragover', dragOver).on('dragleave', dragLeave);
+    this.on('drop', drop).on('dragstart', opts.dragStart).on('dragenter', dragEnter).on('dragover', dragOver).on('dragleave', dragLeave);/**/
     $(document).on('drop', docDrop).on('dragenter', docEnter).on('dragover', docOver).on('dragleave', docLeave);
 
     $('#' + opts.fallback_id).change(function(e) {
       opts.drop(e);
       files = e.target.files;
       files_count = files.length;
-      upload();
+      if(button == empty){
+        upload();
+      }
     });
+    
+    if (button !=empty){
+      button.on("click",function(e){
+        upload();
+      });
+    }
 
     function drop(e) {
-        console.log("in drop function")
+        // console.log("in drop function")
       if( opts.drop.call(this, e) === false ) return false;
       files = e.dataTransfer.files;
       if (files === null || files === undefined || files.length === 0) {
@@ -89,7 +100,9 @@
         return false;
       }
       files_count = files.length;
-      upload();
+      if(button == empty){
+        upload();
+      }
       e.preventDefault();
       return false;
     }

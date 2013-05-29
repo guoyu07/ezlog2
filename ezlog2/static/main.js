@@ -18,11 +18,12 @@ function uploader_init() {
         url : '/picture/action/save', // upload handler, handles each file separately, can also be a function returning a url
         paramname : 'file', // POST parameter name used on serverside to reference file
         withCredentials : false, // make a cross-origin request with cookies
+        button:$("#_pt_sender"),
         data : {
         },
         allowedfiletypes : ['image/jpeg', 'image/png', 'image/gif'], // filetypes allowed by Content-Type.  Empty array means no restrictions
-        maxfiles : 25,
-        maxfilesize : 20, // max file size in MBs
+        maxfiles : 1,
+        maxfilesize : 16, // max file size in MBs
         drop : function (e) {
             // user drops file
             var files = e.target.files;
@@ -31,9 +32,13 @@ function uploader_init() {
             }
             console.log(files);
             var file = files[0];
+            
         },
         uploadStarted : function (i, file, len) {
             // len = total files user dropped
+            console.log(i);
+            console.log(file);
+            console.log(len);
         },
         uploadFinished : function (i, file, response, time) {
             console.log("upload finished");
@@ -59,8 +64,8 @@ function avatar_uploader_init() {
           type:"avatar"
         },
         allowedfiletypes : ['image/jpeg', 'image/png', 'image/gif'], // filetypes allowed by Content-Type.  Empty array means no restrictions
-        maxfiles : 25,
-        maxfilesize : 20, // max file size in MBs
+        maxfiles : 1,
+        maxfilesize : 16, // max file size in MBs
         drop : function (e) {
             // user drops file
             var files = e.target.files;
