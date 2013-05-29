@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+<div id="weibo_notify">
+<br/>
+</div><!--end of weibo notify-->
+
+<div id='weibo_list'>
+    {%set floor=1%}
+    {%for tweet in tweets%}
+        {%include 'include/show_tweet.html'%}
+        {%set floor=floor+1%}
+    {%endfor%}
+    {%if tweets|length >=15%}
+    <a class="btn btn-block" href="{{more_url}}">更多</a>
+    {%endif%}
+</div><!--end of weibo list-->
+{%endblock%}
+
+{%block sidebar%}
+    {%include 'sidebar.html'%}
+        
+{%endblock%}
+
+
+
+
+
+

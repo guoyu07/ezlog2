@@ -21,8 +21,8 @@ def main():
     page    = request.args.get("page", 1, type=int)
     tweets  = Tweet.get_tweets_foruser(session['user'],offset=page-1,limit=15)
     return render_template('main.html',
-                            tweets = tweets,
-                            more_url = url_for("main",page=page+1))
+                            tweets=tweets,
+                            more_url=url_for("main",page=page+1))
 
 
 @app.route("/tweet/<string:tweetid>",methods=['GET'])
@@ -71,9 +71,8 @@ def search():
         return redirect(url_for("newest"))
     keywords    = keyword.split()
     tweets      = SearchIndex.get_tweets_by_keywords(keywords)
-    
     return render_template("search.html", tweets=tweets)
-    
+
 
 @app.route("/register", methods=['GET','POST'])
 def register():

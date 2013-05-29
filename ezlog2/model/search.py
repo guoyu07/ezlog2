@@ -34,7 +34,7 @@ class SearchIndex(db.Document):
                 counter[key] +=1
             return counter
 
-        tweets  = Tweet.objects().only("content","id")
+        tweets  = Tweet.objects(retweetid__ne="").only("content","id")
         final_d = defaultdict(list)
         for t in tweets:
             counter     = _keyword_count(t.content)
