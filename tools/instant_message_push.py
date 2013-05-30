@@ -6,23 +6,16 @@ from redis import Redis
 from flask import request,Response, stream_with_context,session
 
 from ezlog2 import app
-
 redis = Redis()
-@app.route("/streams/interesting")
-def stream():
-    # print "Connect"
-    # user = session.get("user",None)
-    # print "user",user
-    # print "session",session
-    print "request.cookies",request.cookies
-    # if user is None:
-        # return "None"
+
+@app.route("/notify_user/<userid>")
+def stream(userid):
     def generate():
         pubsub = redis.pubsub()
-        pubsub.subscribe("interesting-channel")
+        pubsub.subscribe("notify-%s"%userid)
         for event in pubsub.listen():
             if event["type"] == "message":
-                yield "data: %srnrn % event[data]"
+                yield "data: %s\r\n\r\n" % event["data"]
     return Response(stream_with_context(generate()),
                     direct_passthrough=True,
                     mimetype="text/event-stream")

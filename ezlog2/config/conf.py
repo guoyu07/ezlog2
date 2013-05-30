@@ -10,6 +10,7 @@ PRODUCTION = False
 
 SITENAME = "projectname"#your site here
 SITE_DOMAIN = ""#your site here
+SERVER_NAME = None
 PORT = "5000"
 SECRET_KEY = "secret_keyplzchangeit~"
 

@@ -5,9 +5,14 @@ from time import mktime
 import random
 import re
 import bleach
+from redis import Redis
 
 _at_user_re = re.compile(ur"@(\w+) ")
+redis = Redis()
 
+def notify_user(user):
+    redis.publish("notify-%s"%str(user.id),
+                  str(user.all_notify_counter))
 
 def clean(text):
     return bleach.clean(

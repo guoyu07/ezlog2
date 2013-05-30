@@ -10,13 +10,6 @@
       $(this).animate({"width": "300px"});
     });
 
-
-    var source = new EventSource('http://127.0.0.1:5005/streams/interesting');
-    source.onmessage = function (event) {
-         console.log(event.data);
-    };
-
-
     atjs_ini_('textarea');
     atjs_ini_('input');
     uploader_init();

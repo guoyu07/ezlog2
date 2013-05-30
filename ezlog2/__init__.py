@@ -26,9 +26,6 @@ def something_before_request():
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
-    response.set_cookie(app.session_cookie_name, "qqqqqqq",
-                            httponly=False,
-                            )
     return response
 
 import controllers

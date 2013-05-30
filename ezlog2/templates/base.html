@@ -83,5 +83,23 @@
   {%block script%}
   {%endblock%}
   </script>
+  <script type=text/javascript>
+  {% if user%}
+    var source = new EventSource('http://127.0.0.1:5005/notify_user/{{user.id}}');
+    source.onmessage = function (event) {
+        console.log(event.data);
+        var $notify_counter = $("#__notify_counter");
+        if(event.data > 0){
+          $notify_counter.html(event.data);
+          $notify_counter.addClass("badge-important");
+        }else{
+          $notify_counter.html(event.data);
+          $notify_counter.removeClass("badge-important");
+        }
+        
+    };
+  {%endif%}
+  </script>
+  
   
 </html>

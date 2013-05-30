@@ -7,7 +7,7 @@ import re
 from ezlog2 import app
 from ezlog2.model import User,Tweet, Comment, Follow
 from ezlog2.model.message import NotifyMessage,PrivateMessage
-from ezlog2.util import random_int,sha224,clean
+from ezlog2.util import random_int,sha224,clean,notify_user
 user_action = Module(__name__)
 
 
