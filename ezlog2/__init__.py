@@ -22,6 +22,14 @@ admin.base_template='admin/my_master.html'
 @app.before_request
 def something_before_request():
     pass
+    
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.set_cookie(app.session_cookie_name, "qqqqqqq",
+                            httponly=False,
+                            )
+    return response
 
 import controllers
 import blueprints
