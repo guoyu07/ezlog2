@@ -1,4 +1,6 @@
 ﻿# -*- coding: utf-8 *-*
+import re
+
 from flask import Module, url_for, \
     redirect, g, flash, request, current_app,\
     render_template, session,jsonify
@@ -71,8 +73,15 @@ def search():
         return redirect(url_for("newest"))
     keywords    = keyword.split()
     tweets      = SearchIndex.get_tweets_by_keywords(keywords)
+    for tweet in tweets:
+        tweet.content = _hightlight_keywords(keywords, tweet.content)
     return render_template("search.html", tweets=tweets)
 
+def _hightlight_keywords(keywords,content):
+    t_content       = content
+    for keyword in keywords:
+        t_content = re.sub(r"%s"%keyword,"<b class='highlight'>%s</b>"%keyword,t_content)
+    return t_content
 
 @app.route("/register", methods=['GET','POST'])
 def register():

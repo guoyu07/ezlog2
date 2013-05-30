@@ -1,8 +1,6 @@
 
+https://github.com/DazWorrall/flask-sse
 
-retweet should work
-
-comment problem         
 comment date
 
 
@@ -12,9 +10,3 @@ DONE                DEC
 
                     ###paging for comments
 
-                    user setting model
-                    
-                    friend model: @feature, immediately
-                    retweet model: almost
-                    admin model@!!!! flask-admin
-                    user setting model: a little bit

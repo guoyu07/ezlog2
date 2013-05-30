@@ -1,3 +1,4 @@
+# -*- coding: utf-8 *-*
 from collections import Counter,defaultdict
 import itertools
 
@@ -13,6 +14,13 @@ class DocItem(db.EmbeddedDocument):
     meta    = {
         'index_types': False,
     }
+    
+    def __hash__(self):
+        if self.doc is None:
+            # For new object
+            return super(BaseDocument, self).__hash__()
+        else:
+            return hash(self.doc)
 
 class SearchIndex(db.Document):
     keyword = db.StringField(primary_key=True, required=True)
@@ -21,6 +29,9 @@ class SearchIndex(db.Document):
     meta = {
         'allow_inheritance': False,
         'index_types': False,
+        'indexes': [
+            {'fields': ['keyword'], 'unique': True},
+        ]
     }
 
     @staticmethod
@@ -34,7 +45,7 @@ class SearchIndex(db.Document):
                 counter[key] +=1
             return counter
 
-        tweets  = Tweet.objects(retweetid__ne="").only("content","id")
+        tweets  = Tweet.objects(retweetid="").only("content","id")
         final_d = defaultdict(list)
         for t in tweets:
             counter     = _keyword_count(t.content)
@@ -52,6 +63,7 @@ class SearchIndex(db.Document):
         start     = offset*limit
         end       = offset*limit + limit
         doc_lists = (x.doc_list for x in SearchIndex.objects(keyword__in=keywords).only("doc_list"))
+        # print d
         docs      = itertools.chain.from_iterable(doc_lists)
         counter   = Counter()
         for d in docs:
@@ -59,7 +71,7 @@ class SearchIndex(db.Document):
 
         sorted_d = sorted(counter.iteritems(),key=lambda x:-x[1])[start:end]
 
-        return [x.doc for x in sorted_d]
+        return [x[0].doc for x in sorted_d]
 
 
 
