@@ -3,6 +3,12 @@
     $("#compose_message").charCount();
 
     $("[data-toggle='tooltip']").tooltip({delay: { show: 0, hide: 100 }});
+    
+    $(".navbar-search .search-query").focusin(function(e){
+      $(this).animate({"width": "500px"});
+    }).focusout(function(e){
+      $(this).animate({"width": "300px"});
+    });
 
     atjs_ini_('textarea');
     atjs_ini_('input');

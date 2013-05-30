@@ -15,6 +15,10 @@
     {%if tweets|length >=15%}
     <a class="btn btn-block" href="{{more_url}}">更多</a>
     {%endif%}
+    {%if tweets|length ==0 %}
+      <div class="well text-center">没有搜索到相应结果，请重试。</div>
+    {%endif%}
+    
 </div><!--end of weibo list-->
 {%endblock%}
 
