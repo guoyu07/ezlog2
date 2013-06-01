@@ -13,8 +13,6 @@ class TestUser(unittest.TestCase):
                            nickname="12",
                            password=sha224("fakeone")).save()
 
-
-
     #this user only test for follow relationship
     @nottest
     def _set_up_followed_user(self):
@@ -53,10 +51,30 @@ class TestUser(unittest.TestCase):
         user    = self.followed_user.get_followers()[0]
         eq_(user,self.user)
 
+    def test_get_following_users(self):
+        self._set_up_followed_user()
+        user    = self.user.get_following_users()[0]
+        eq_(user,self.followed_user)
 
+    def test_can_send_pm(self):
+        self._set_up_followed_user()
+        ok_(not self.user.can_send_pm_to_user(self.followed_user))
+        ok_(not self.followed_user.can_send_pm_to_user(self.user))
+        Follow.toggle_follow(self.followed_user.id,self.user.id)
+        ok_(self.user.can_send_pm_to_user(self.followed_user))
+        ok_(self.followed_user.can_send_pm_to_user(self.user))
+
+    def test_follower_counter(self):
+        self._set_up_followed_user()
+        eq_(self.followed_user.follower_counter,1)
+
+    def test_following_counter(self):
+        self._set_up_followed_user()
+        eq_(self.user.following_counter,1)
 
     def tearDown(self):
         User.drop_collection()
+        Follow.drop_collection()
 
 class TestAdmin(unittest.TestCase):
     def setUp(self):

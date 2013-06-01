@@ -2,7 +2,7 @@
 from _pic_pil import PicPIL
 from _pic_operator import OssOperator
 from _pic_model import NullModel
-from util import generate_url
+# from util import generate_url
 
 class Picture(object):
 

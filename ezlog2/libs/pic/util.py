@@ -5,11 +5,11 @@ import md5
 from PIL import Image
 from PIL import ImageOps
 
-def generate_url(name):
-    if name is None:
-        return ""
-    from oss.oss_config import *
-    return "http://" + END_POINT + "/" + BUCKET + "/" + name
+# def generate_url(name):
+    # if name is None:
+        # return ""
+    # from oss.oss_config import *
+    # return "http://" + END_POINT + "/" + BUCKET + "/" + name
 
 # it is StringIO, not a file. but the API is same. I regard it as file-like object
 def convert_image_to_file(image):
