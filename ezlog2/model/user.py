@@ -108,7 +108,7 @@ class User(db.Document, Validator):
 
     def get_followers(self):
         follower_users = [x.follower for x in Follow.objects(followed_user=self)]
-        return following_users
+        return follower_users
 
     def get_following_users(self):
         following_users = [x.followed_user for x in Follow.objects(follower=self)]
