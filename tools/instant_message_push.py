@@ -5,11 +5,13 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from redis import Redis
 from flask import request,Response, stream_with_context,session
 
+
 from ezlog2 import app
-redis = Redis()
+
 
 @app.route("/notify_user/<userid>")
 def stream(userid):
+    redis = Redis()
     def generate():
         pubsub = redis.pubsub()
         pubsub.subscribe("notify-%s"%userid)
@@ -21,5 +23,8 @@ def stream(userid):
                     mimetype="text/event-stream")
 
 if __name__ == '__main__':
+    # from gevent import monkey; monkey.patch_all()
     app.debug = True
     app.run(port=5005,threaded=True)
+
+
