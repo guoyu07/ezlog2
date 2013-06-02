@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/favicon.ico">
     <!-- css styles -->
-    
+
     <link href="/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/static/lib/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet">
@@ -31,14 +31,14 @@
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           <span class=''>{{message}}</span>
         </div>
-        
+
         {% endfor %}
       {% endif %}
     {% endwith %}
-    
+
     </div>
     <div id='content'class='container'>
-    
+
     <div class="container-fluid">
       <div class="row-fluid">
         {%block singlepage%}
@@ -53,16 +53,16 @@
           {%endblock%}
         {%endblock%}
         </div>
-        
+
       </div>
     </div><!--endof container-fluid-->
-    
+
     </div><!--endof container-->
-    
-    
-    
+
+
+
     </div>
-    
+
     {%include 'footer.html'%}
     {%include "include/retweet_input.html"%}
     {%include "include/private_message_input.html"%}
@@ -96,10 +96,9 @@
           $notify_counter.html(event.data);
           $notify_counter.removeClass("badge-important");
         }
-        
     };
   {%endif%}
   </script>
-  
-  
+
+
 </html>
