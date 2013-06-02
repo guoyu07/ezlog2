@@ -7,6 +7,7 @@ from datetime import datetime as dt
 
 from ezlog2.model import User
 from ezlog2.libs.db import db
+from ezlog2.util import notify_user
 
 
 class NotifyMessage(db.Document):
@@ -24,6 +25,7 @@ class NotifyMessage(db.Document):
     @classmethod
     def add(cls,content,sender,receiver):
         nm      = cls(content=content,sender=sender,receiver=receiver).save()
+        notify_user(receiver)
         return nm
 
     @classmethod
@@ -68,6 +70,7 @@ class PrivateMessage(db.Document):
     @classmethod
     def add(cls,content,sender,receiver):
         pm      = cls(content=content,sender=sender,receiver=receiver).save()
+        notify_user(receiver)
         return pm
 
     def safe_delete(self):
