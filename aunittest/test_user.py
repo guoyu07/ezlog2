@@ -6,19 +6,18 @@ from nose.tools import nottest, istest, raises,eq_,ok_
 from ezlog2.model import User
 from ezlog2.model.user import Admin,Follow
 from ezlog2.util import sha224
+from .common import user_create
 
 class TestUser(unittest.TestCase):
     def setUp(self):
-        self.user   = User(email="fake",
-                           nickname="12",
-                           password=sha224("fakeone")).save()
+        self.user   = user_create("fake","12","fakeone")
 
     #this user only test for follow relationship
     @nottest
     def _set_up_followed_user(self):
-        self.followed_user = User(email="followed_fake",
-                           nickname="cc12",
-                           password=sha224("1fakeone")).save()
+        self.followed_user = user_create("followed_fake",
+                                         "cc12",
+                                         "1fakeone")
         Follow.toggle_follow(self.user.id,self.followed_user.id)
 
     def test_auth(self):

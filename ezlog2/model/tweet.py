@@ -54,6 +54,8 @@ class Tweet(db.Document):
 
     @property
     def original_tweet(self):
+        if not self.originalid:
+            return None
         return Tweet.objects(id=self.originalid).first()
 
     @property
