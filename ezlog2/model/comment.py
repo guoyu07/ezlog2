@@ -22,6 +22,7 @@ class Comment(db.Document):
     def add(cls,content,tweet,commenter):
         c = Comment(content=content, tweet=tweet, commenter=commenter)
         c.save()
+        
         from message import NotifyMessage
         nicknames   = find_all_at_users(c.content)
         for nickname in nicknames:

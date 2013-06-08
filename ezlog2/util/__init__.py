@@ -8,16 +8,15 @@ import bleach
 from redis import Redis
 
 _at_user_re = re.compile(ur"@(\w+) ")
-redis = Redis()
+
+redis       = Redis()
 
 def notify_user(user):
     redis.publish("notify-%s"%str(user.id),
                   str(user.all_notify_counter))
 
 def clean(text):
-    return bleach.clean(
-        text,
-        strip=True)
+    return bleach.clean(text,strip=True)
 
 def linkify(text):
     t_text = text + " "
@@ -34,10 +33,10 @@ def sha224(password):
     return hashlib.sha224(password).hexdigest()
 
 def readable_time(d):
-    now = dt.now()
-    now_sec = mktime(now.timetuple())
+    now      = dt.now()
+    now_sec  = mktime(now.timetuple())
     time_sec = mktime(d.timetuple())
-    delta = now_sec - time_sec
+    delta    = now_sec - time_sec
     if delta < 60:
         return u"%s秒前" % int(delta)
     elif 60 <= delta < 60*60:

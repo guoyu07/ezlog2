@@ -37,16 +37,18 @@ class Tweet(db.Document):
             NotifyMessage.add(self.notify_render(),self.poster,receiver)
 
     def notify_render(self):
-        return render_template("include/tweet_notify.html",sender=self.poster,tweet=self)
+        return render_template("include/tweet_notify.html",
+                                sender=self.poster,
+                                tweet=self)
 
     @classmethod
     def retweetit(cls, originalid, comment, poster):
         t   = cls.get_tweet_byid(originalid)
-        ret = cls(content       = t.content,
-                originalid      = t.originalid or originalid,
-                retweetid       = originalid,
-                retweet_comment = comment,
-                poster          = poster).save()
+        ret = cls(content         = t.content,
+                  originalid      = t.originalid or originalid,
+                  retweetid       = originalid,
+                  retweet_comment = comment,
+                  poster          = poster).save()
         return ret
 
     def is_retweet(self):
@@ -76,7 +78,7 @@ class Tweet(db.Document):
         start       = offset*limit
         end         = offset*limit+limit
         tweets      = cls.objects(poster=user)\
-                        .order_by("-create_date")[start:end]
+                         .order_by("-create_date")[start:end]
         return tweets
 
 
@@ -94,7 +96,6 @@ class Tweet(db.Document):
 
     def comment_on(self, commenter, content):
         pass
-
 
     @property
     def retweet_counter(self):

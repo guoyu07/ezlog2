@@ -12,4 +12,5 @@ def username_startwith():
     startname       = request.values.get("startwith", "")
     users           = User.get_users_startwith(startname)
     return jsonify(users=[{'nickname':x.nickname, 
-                           'id':str(x.id), 'avatar':x.avatar} for x in users])
+                           'id':str(x.id), 
+                           'avatar':x.avatar} for x in users])

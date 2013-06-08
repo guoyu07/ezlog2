@@ -179,7 +179,6 @@ class User(db.Document, Validator):
         return len(Tweet.objects(poster=self))
 
 
-
 class Follow(db.Document):
     follower             = db.ReferenceField(User)
     followed_user        = db.ReferenceField(User)

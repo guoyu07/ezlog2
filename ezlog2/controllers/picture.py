@@ -8,9 +8,6 @@ from ezlog2.model import User, Tweet, Comment
 from ezlog2.util import sha224
 from ezlog2.libs.pic import Picture,MongOperator
 
-
-
-
 @app.route("/picture/<string:id>",methods=["GET"])
 def get_picture(id):
     picture = MongOperator.get_pictue_by_id(id)
@@ -20,6 +17,7 @@ def get_picture(id):
 def save_picture():
     file = request.files.get("file", None)
     type = request.form.get("type", None)
+
     if file is None:
         return jsonify(rcode=404, msg="file required")
 
@@ -27,8 +25,8 @@ def save_picture():
     pic.save()
 
     if type == "avatar":
-        user = session["user"]
-        user.avatar = pic.get_url()
+        user            = session["user"]
+        user.avatar     = pic.get_url()
         user.save()
         session["user"] = user
 
