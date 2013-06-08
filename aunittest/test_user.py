@@ -37,8 +37,12 @@ class TestUser(unittest.TestCase):
         ok_(User.is_nickname_exist("12"))
         ok_(not User.is_nickname_exist("e1"))
 
-    def test_get_user_by_nickname(self):
+    def test_get_users_startwith(self):
         user    = User.get_users_startwith("1")[0]
+        eq_(user,self.user)
+
+    def test_get_user_by_nickname(self):
+        user   = User.get_user_by_nickname("12")
         eq_(user,self.user)
 
     def test_is_following(self):
