@@ -20,6 +20,9 @@ class TestComment(unittest.TestCase):
     def test_get_comments_bytweetid(self):
         comments = Comment.get_comments_bytweetid(self.tweet.id)
         eq_(comments[0],self.comment)
+        
+    def test_tweet_comments(self):
+        eq_(self.tweet.comments[0],self.comment)
 
     def tearDown(self):
         User.drop_collection()

@@ -31,6 +31,10 @@ class TestNotifyMessage(unittest.TestCase):
         eq_(len(nms),0)
         nms = NotifyMessage.get_notify_message_for_user(self.receiver)
         eq_(nms[0],self.message)
+        
+    def test_user_get_notify_messages(self):
+        nms = self.receiver.get_notify_messages()
+        eq_(nms[0],self.message)
 
     def test_read(self):
         ok_(not self.message.has_read)
@@ -80,9 +84,13 @@ class TestPrivateMessage(unittest.TestCase):
         ok_(result)
         eq_(PrivateMessage.objects().count(),2)
         
-    def user_get_all_private_message(self):
+    def test_user_get_all_private_message(self):
         pms   = self.receiver.get_all_private_message()
         eq_(pms[0],self.message)
+    
+    def test_user_private_counter(self):
+        eq_(self.sender.private_counter,0)
+        eq_(self.receiver.private_counter,1)
 
     def tearDown(self):
         User.drop_collection()
