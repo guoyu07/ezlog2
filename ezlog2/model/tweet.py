@@ -34,7 +34,8 @@ class Tweet(db.Document):
         self.save()
         for nickname in nicknames:
             receiver = User.get_user_by_nickname(nickname)
-            NotifyMessage.add(self.notify_render(),self.poster,receiver)
+            if receiver is not None:
+                NotifyMessage.add(self.notify_render(),self.poster,receiver)
 
     def notify_render(self):
         return render_template("include/tweet_notify.html",

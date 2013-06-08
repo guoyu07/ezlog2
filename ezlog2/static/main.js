@@ -19,7 +19,6 @@
       });
     });
     
-    //show_tweet_comment("{{tweet.id}}",{{floor or 0}})
 
     atjs_ini_('textarea');
     atjs_ini_('input');
