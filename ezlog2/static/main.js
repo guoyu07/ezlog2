@@ -9,6 +9,17 @@
     }).focusout(function(e){
       $(this).animate({"width": "300px"});
     });
+    
+    $(".tweet").each(function(){
+      var $this   = $(this);
+      var tweetid = $this.attr("tweetid");
+      var show_comment = show_tweet_comment()
+      $(".comment",$this).on("click",function(){
+        show_comment(tweetid);
+      });
+    });
+    
+    //show_tweet_comment("{{tweet.id}}",{{floor or 0}})
 
     atjs_ini_('textarea');
     atjs_ini_('input');
@@ -290,7 +301,7 @@ function tweet_send_acion(){
     });
 }
 
-var show_tweet_comment = (function(tweetid){
+var show_tweet_comment = (function(){
     var displayed = false;
     return function(tweetid){
       var tweet = $('[tweetid='+tweetid+']');
@@ -302,7 +313,7 @@ var show_tweet_comment = (function(tweetid){
       }
       displayed =!displayed;
     }
-})();
+});
 
 
 function comment_comment(node,nickname){
