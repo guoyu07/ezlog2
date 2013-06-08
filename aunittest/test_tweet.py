@@ -17,8 +17,8 @@ class TestTweet(unittest.TestCase):
     def test_create_tweet(self):
         eq_(Tweet.objects().count(),1)
 
-    def test_retweet(self):
-        pass
+    # def test_retweet(self):
+        # pass
 
     def test_is_retweet(self):
         ok_(not self.tweet.is_retweet())

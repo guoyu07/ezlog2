@@ -28,10 +28,11 @@ class Comment(db.Document):
             receiver = User.get_user_by_nickname(nickname)
             NotifyMessage.add(c.notify_render(),c.commenter,receiver)
         return c
-        
-    def notify_render(self):
-        return render_template("include/comment_notify.html",sender=self.commenter,tweet=self.tweet)
 
+    def notify_render(self):
+        return render_template("include/comment_notify.html",
+                                sender=self.commenter,
+                                tweet=self.tweet)
 
     @classmethod
     def get_comments_bytweetid(cls, tweetid, offset =0, limit = 20):
