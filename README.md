@@ -1,6 +1,6 @@
 Ezlog2
 ============
-A weibo clone based on flask, bootstrap and mongodb
+A weibo clone based on flask, bootstrap and mongodb.
 
 -----------------------------------------------------------
 ## Setup
@@ -35,6 +35,7 @@ linux:
 
 ## Folder Organize
 
+```
 ├─aunittest  ------------------------ unittest stuff
 ├─ezlog2  --------------------------- the main source
 │  ├─blueprints --------------------- some sub-apps
@@ -48,6 +49,19 @@ linux:
 │  ├─templates ---------------------- Tempaltes here
 │  └─util --------------------------- some helper function define here
 └─tools  ---------------------------- some helpful tools
+```
+
+## TO-DO
+
+* auto search index, so far you have to make index by hand 
+* better template organize
+* better UI
+* add js template(mustache.js?)
+* add front route
+
+
+
+
 
 
 
